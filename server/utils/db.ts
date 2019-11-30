@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
 import logger from './logger';
 import User from './dbModels/user.model';
+import Customer from './dbModels/customer.model';
 
 export const connect = async () => {
   const sequelize = new Sequelize({
@@ -16,7 +17,7 @@ export const connect = async () => {
       acquire: 30000,
       idle: 10000
     },
-    models: [User]
+    models: [User, Customer]
   });
 
   sequelize

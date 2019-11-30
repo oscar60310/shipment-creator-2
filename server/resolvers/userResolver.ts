@@ -4,8 +4,6 @@ import { ApolloContext } from 'server/utils/apollo-context';
 import { getToken } from '../utils/auth';
 
 export default class UserResolver {
-  constructor(private userService: UserService) {}
-
   public findMe = async (_root, _args, context: ApolloContext) => {
     const user = await context.userService.findOne(context.user.id);
     return user;

@@ -33,3 +33,4 @@ CREATE TABLE public.customers (
   remark VARCHAR NULL,
   enable BOOLEAN NOT NULL
 );
+CREATE UNIQUE INDEX public_customer_name ON public.customers(name);

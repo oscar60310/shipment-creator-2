@@ -1,0 +1,19 @@
+type Customer {
+  name: String!
+  address: String
+  phone: String
+  modifyUser: User!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+  modifyBy: User!
+}
+
+"""
+Input
+"""
+input CustomerCreateInput {
+  name: String!
+  phone: String
+  address: String
+  remark: String
+}

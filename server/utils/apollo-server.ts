@@ -1,19 +1,24 @@
 import { ApolloServer, gql, AuthenticationError } from 'apollo-server-koa';
 import { importSchema } from 'graphql-import';
 import Koa from 'koa';
-import { UserService } from '../services/userService';
-import UserResolver from '../resolvers/userResolver';
 import { ApolloContext } from './apollo-context';
 import { validateToken } from './auth';
 import { mapValues } from 'lodash';
+import { GraphQLDateTime } from 'graphql-iso-date';
+import { UserService } from '../services/userService';
+import CustomerService from '../services/customerService';
+import UserResolver from '../resolvers/userResolver';
+import CustomerResolver from '../resolvers/customerResolver';
 
 const typeDefs = gql(importSchema('server/graphql/index.graphql'));
 
 // Services
 const userService = new UserService();
+const customerService = new CustomerService();
 
 // Resolvers
-const userResolver = new UserResolver(userService);
+const userResolver = new UserResolver();
+const customerResolver = new CustomerResolver();
 
 const authenticator = next => (root, args, context, info) => {
   if (!context.user) {
@@ -39,16 +44,22 @@ const withAuthenticator = resolvers => {
 const resolvers = withAuthenticator({
   Query: {
     me: userResolver.findMe,
-    login: userResolver.login
+    login: userResolver.login,
+    customer: customerResolver.findOne
   },
   Mutation: {
-    createUser: userResolver.createOne
-  }
+    createUser: userResolver.createOne,
+    createCustomer: customerResolver.createOne
+  },
+  // Nested
+  Customer: customerResolver.nested()
 });
+
+const resolversWithScalar = { ...resolvers, DateTime: GraphQLDateTime };
 
 export const server = new ApolloServer({
   typeDefs,
-  resolvers,
+  resolvers: resolversWithScalar,
   context: ({ ctx }) => {
     const token = ctx.header.authorization || '';
     let user;
@@ -66,7 +77,8 @@ export const server = new ApolloServer({
 
     return {
       user,
-      userService
+      userService,
+      customerService
     } as ApolloContext;
   }
 });
