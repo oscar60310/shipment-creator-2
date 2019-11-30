@@ -14,7 +14,7 @@ CREATE INDEX public_user_login ON public.users(username, password, enable);
 INSERT INTO public.users VALUES (
   'b6ddbc79-8709-49c6-a8a7-fc62a3869a25',
   'admin', 
-  'af9300fe0c1e534e2406f9b2511d33e19103f5bd8ec60f6b06a05e1279505848',
+  '69f64b10d21b5ec6e5d8bc3ff6c274317a48577253f76ee128f2c5b5abda5cf9',
   'ADMIN', 
   NOW(),
   NOW(),

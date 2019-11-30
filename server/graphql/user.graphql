@@ -3,3 +3,9 @@ type LoginResponse {
   success: Boolean!
   token: String
 }
+
+type User {
+  id: String!
+  username: String!
+  role: String!
+}

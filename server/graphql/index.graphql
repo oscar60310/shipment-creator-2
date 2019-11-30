@@ -1,4 +1,7 @@
 # import * from 'user.graphql'
 type Query {
+  "login info"
+  me: User!
+  "login"
   login(username: String!, password: String!): LoginResponse!
 }
