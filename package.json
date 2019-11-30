@@ -6,7 +6,7 @@
   "author": "Ivan Tsai <oscar60310@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node ./server/app.ts",
+    "start": "NODE_ENV=development ts-node ./server/app.ts",
     "build": "cross-env NODE_ENV=production webpack --mode=production",
     "lint": "eslint src --ext .tsx,.ts",
     "test": "jest",
@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^3.19.1",
-    "koa": "^2.11.0"
+    "koa": "^2.11.0",
+    "winston": "^3.2.1"
   }
 }
