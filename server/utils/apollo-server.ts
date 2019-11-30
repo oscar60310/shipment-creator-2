@@ -49,7 +49,8 @@ const resolvers = withAuthenticator({
   },
   Mutation: {
     createUser: userResolver.createOne,
-    createCustomer: customerResolver.createOne
+    createCustomer: customerResolver.createOne,
+    updateCustomer: customerResolver.updateOne
   },
   // Nested
   Customer: customerResolver.nested()

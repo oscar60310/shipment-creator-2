@@ -15,4 +15,13 @@ export default class CustomerService {
     const customer = await Customer.findOne({ where: { id } });
     return customer;
   };
+
+  public updateOne = async (id: string, data: Partial<Customer>) => {
+    const [number, customer] = await Customer.update(data, {
+      where: { id },
+      returning: true
+    });
+    if (number === 0) throw new Error('Update failed');
+    return customer[0];
+  };
 }

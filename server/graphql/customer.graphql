@@ -17,3 +17,10 @@ input CustomerCreateInput {
   address: String
   remark: String
 }
+
+input CustomerUpdateInput {
+  name: String
+  phone: String
+  address: String
+  remark: String
+}
