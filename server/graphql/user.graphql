@@ -1,0 +1,5 @@
+"Login response"
+type LoginResponse {
+  success: Boolean!
+  token: String
+}

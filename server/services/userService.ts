@@ -4,15 +4,18 @@ import * as crypto from 'crypto';
 const SALT_STR = 'KDL';
 
 export class UserService {
-  constructor() {}
+  constructor() { }
 
   public login = async (username: string, password: string) => {
-    const result = await User.findOne({
+    const user = await User.findOne({
       where: {
         username,
         password: this.passwordHash(username, password)
       }
     });
+    return {
+      success: !!user, user
+    }
   };
 
   private passwordHash = (username: string, password: string) => {

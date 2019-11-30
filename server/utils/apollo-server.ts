@@ -1,16 +1,22 @@
-import { ApolloServer } from 'apollo-server-koa';
-import typeDefs from './graph-types';
+import { ApolloServer, gql } from 'apollo-server-koa';
+import { importSchema } from 'graphql-import';
 import Koa from 'koa';
 import { UserService } from '../services/userService';
+import UserResolver from '../resolvers/userResolver';
+
+const typeDefs = gql(importSchema('server/graphql/index.graphql'));
+
+// Services
+const userService = new UserService();
+
+// Resolvers
+const userResolver = new UserResolver(userService);
 
 const resolvers = {
   Query: {
-    test: () => 'test'
+    login: userResolver.login
   }
 };
-
-const userService = new UserService();
-
 export const server = new ApolloServer({ typeDefs, resolvers });
 export const app = new Koa();
 server.applyMiddleware({ app });
