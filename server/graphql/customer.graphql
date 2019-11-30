@@ -5,7 +5,6 @@ type Customer {
   modifyUser: User!
   updatedAt: DateTime!
   createdAt: DateTime!
-  modifyBy: User!
 }
 
 """

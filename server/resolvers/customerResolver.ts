@@ -22,7 +22,7 @@ export default class UserResolver {
   };
 
   public nested = () => ({
-    modifyBy: async ({ modifyBy }, _args, context: ApolloContext) => {
+    modifyUser: async ({ modifyBy }, _args, context: ApolloContext) => {
       return await context.userService.findOne(modifyBy);
     }
   });

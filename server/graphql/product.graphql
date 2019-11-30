@@ -7,7 +7,6 @@ type Product {
   modifyUser: User!
   updatedAt: DateTime!
   createdAt: DateTime!
-  modifyBy: User!
   remark: String
 }
 
