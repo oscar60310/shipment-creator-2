@@ -5,20 +5,26 @@ import { ApolloContext } from './apollo-context';
 import { validateToken } from './auth';
 import { mapValues } from 'lodash';
 import { GraphQLDateTime } from 'graphql-iso-date';
+
 import { UserService } from '../services/userService';
 import CustomerService from '../services/customerService';
+import ProductService from '../services/productService';
+
 import UserResolver from '../resolvers/userResolver';
 import CustomerResolver from '../resolvers/customerResolver';
+import ProductResolver from '../resolvers/productResolver';
 
 const typeDefs = gql(importSchema('server/graphql/index.graphql'));
 
 // Services
 const userService = new UserService();
 const customerService = new CustomerService();
+const productService = new ProductService();
 
 // Resolvers
 const userResolver = new UserResolver();
 const customerResolver = new CustomerResolver();
+const productResolver = new ProductResolver();
 
 const authenticator = next => (root, args, context, info) => {
   if (!context.user) {
@@ -45,15 +51,20 @@ const resolvers = withAuthenticator({
   Query: {
     me: userResolver.findMe,
     login: userResolver.login,
-    customer: customerResolver.findOne
+    customer: customerResolver.findOne,
+    product: productResolver.findOne,
+    products: productResolver.findAll
   },
   Mutation: {
     createUser: userResolver.createOne,
     createCustomer: customerResolver.createOne,
-    updateCustomer: customerResolver.updateOne
+    updateCustomer: customerResolver.updateOne,
+    createProduct: productResolver.createOne,
+    updateProduct: productResolver.updateOne
   },
   // Nested
-  Customer: customerResolver.nested()
+  Customer: customerResolver.nested(),
+  Product: productResolver.nested()
 });
 
 const resolversWithScalar = { ...resolvers, DateTime: GraphQLDateTime };
@@ -79,7 +90,8 @@ export const server = new ApolloServer({
     return {
       user,
       userService,
-      customerService
+      customerService,
+      productService
     } as ApolloContext;
   }
 });

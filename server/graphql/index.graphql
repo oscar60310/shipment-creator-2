@@ -1,5 +1,7 @@
 # import * from 'user.graphql'
 # import * from 'customer.graphql'
+# import * from 'product.graphql'
+
 scalar DateTime
 
 type Query {
@@ -9,13 +11,19 @@ type Query {
   login(username: String!, password: String!): LoginResponse!
 
   customer(id: String!): Customer!
+  product(id: String!): Product!
+  products: [Product!]!
 }
 
 type Mutation {
   "create new user"
   createUser(data: UserCreateInput!): String!
   "create new customer"
-  createCustomer(data: CustomerCreateInput!): String!
+  createCustomer(data: CustomerCreateInput!): Customer!
   "update customer"
   updateCustomer(id: String!, data: CustomerUpdateInput!): Customer!
+  "create new product"
+  createProduct(data: ProductCreateInput!): Product!
+  "update product"
+  updateProduct(id: String!, data: ProductUpdateInput!): Product!
 }

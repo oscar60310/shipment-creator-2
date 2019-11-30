@@ -34,3 +34,17 @@ CREATE TABLE public.customers (
   enable BOOLEAN NOT NULL
 );
 CREATE UNIQUE INDEX public_customer_name ON public.customers(name);
+
+CREATE TABLE public.products (
+  id UUID NOT NULL PRIMARY KEY,
+  "displayId" SERIAL,
+  name VARCHAR NOT NULL,
+  unit VARCHAR NOT NULL,
+  price INT4 NOT NULL,
+  "createdAt" TIMESTAMPTZ(3) NULL DEFAULT NOW(),
+  "updatedAt" TIMESTAMPTZ(3) NULL DEFAULT NOW(),
+  "modifyBy" UUID NOT NULL REFERENCES public.users(id),
+  remark VARCHAR NULL,
+  enable BOOLEAN NOT NULL
+);
+CREATE UNIQUE INDEX public_product_name ON public.products(name);

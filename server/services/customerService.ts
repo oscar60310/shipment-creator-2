@@ -8,11 +8,13 @@ export default class CustomerService {
       id: uuid.v4(),
       enable: true
     });
-    return result.id;
+    return result;
   };
 
   public findOne = async (id: string) => {
     const customer = await Customer.findOne({ where: { id } });
+    if (!customer || !customer.enable)
+      throw new Error('Customer not found or has been disabled');
     return customer;
   };
 

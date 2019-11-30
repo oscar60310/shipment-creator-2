@@ -1,0 +1,30 @@
+type Product {
+  id: String!
+  displayId: Int!
+  name: String!
+  unit: String
+  price: Int
+  modifyUser: User!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+  modifyBy: User!
+  remark: String
+}
+
+"""
+Input
+"""
+input ProductCreateInput {
+  name: String!
+  unit: String
+  price: Int
+  remark: String
+}
+
+input ProductUpdateInput {
+  name: String
+  unit: String
+  price: Int
+  remark: String
+  enable: Boolean
+}
