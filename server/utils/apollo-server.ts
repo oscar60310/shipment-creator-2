@@ -40,6 +40,9 @@ const resolvers = withAuthenticator({
   Query: {
     me: userResolver.findMe,
     login: userResolver.login
+  },
+  Mutation: {
+    createUser: userResolver.createOne
   }
 });
 

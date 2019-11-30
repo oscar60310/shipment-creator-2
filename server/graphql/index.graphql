@@ -5,3 +5,8 @@ type Query {
   "login"
   login(username: String!, password: String!): LoginResponse!
 }
+
+type Mutation {
+  "create new user"
+  createUser(data: UserCreateInput!): String!
+}

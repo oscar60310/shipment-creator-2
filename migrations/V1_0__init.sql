@@ -9,6 +9,7 @@ CREATE TABLE public.users (
 );
 
 CREATE INDEX public_user_login ON public.users(username, password, enable);
+CREATE UNIQUE INDEX public_user_name ON public.users(username);
 
 -- Test user
 INSERT INTO public.users VALUES (

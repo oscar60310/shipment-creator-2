@@ -33,4 +33,8 @@ export default class UserResolver {
       token
     };
   };
+
+  public createOne = async (_root, { data }, context: ApolloContext) => {
+    return await context.userService.createOne(data);
+  };
 }
