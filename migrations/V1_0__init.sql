@@ -55,6 +55,7 @@ CREATE TABLE public.orders (
   "customerId" UUID NOT NULL REFERENCES public.customers (id),
   "orderTime" TIMESTAMPTZ(3) NOT NULL,
   status VARCHAR NOT NULL,
+  "orderNumber" VARCHAR NULL,
   "createdAt" TIMESTAMPTZ(3) NULL DEFAULT NOW(),
   "updatedAt" TIMESTAMPTZ(3) NULL DEFAULT NOW(),
   "modifyBy" UUID NOT NULL REFERENCES public.users(id),

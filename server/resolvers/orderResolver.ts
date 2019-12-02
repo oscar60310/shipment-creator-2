@@ -1,5 +1,6 @@
 import { ApolloContext } from 'server/utils/apollo-context';
-import { OrderStatus } from '../utils/dbModels/order.model';
+import Order, { OrderStatus } from '../utils/dbModels/order.model';
+import dayjs from 'dayjs';
 
 export default class UserResolver {
   public createOne = async (_root, { data }, context: ApolloContext) => {
@@ -27,6 +28,9 @@ export default class UserResolver {
     if (target.status === OrderStatus.CONFIRM) {
       throw new Error('Can not update CONFIRM orders');
     }
+    if (data.status === OrderStatus.CONFIRM) {
+      data.orderNumber = this.generateOrderNumber(target);
+    }
     const result = await context.orderService.updateOne(id, {
       ...data,
       modifyBy: context.user.id
@@ -39,4 +43,18 @@ export default class UserResolver {
       return await context.userService.findOne(modifyBy);
     }
   });
+
+  private generateOrderNumber = (data: Order) => {
+    const time = dayjs(data.orderTime);
+    return `${time.format('YYYY')}${data.id
+      .substr(1, 3)
+      .toUpperCase()}${Math.random()
+      .toString(36)
+      .substring(2, 4)
+      .toUpperCase()}${data.customerId
+      .substr(24, 3)
+      .toUpperCase()}${time.format('MM')}${data.displayId
+      .toString()
+      .padStart(3, '0')}${time.format('DD')}`;
+  };
 }

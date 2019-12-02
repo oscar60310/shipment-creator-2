@@ -22,10 +22,14 @@ export default class Order extends Model<Order> {
   id!: string;
   @Column
   displayId!: number;
+  @Column
+  customerId!: string;
   @BelongsTo(() => Customer, 'customerId')
   customer!: string;
   @Column
   status!: OrderStatus;
+  @Column
+  orderNumber!: string;
   @Column
   orderTime!: Date;
   @BelongsTo(() => User, 'modifyBy')
