@@ -9,6 +9,14 @@ type Order {
   orderTime: DateTime!
   remark: String
   enable: Boolean!
+  orderItem: [OrderItem!]!
+}
+
+type OrderItem {
+  id: String!
+  price: Float!
+  quantity: Float!
+  product: Product!
 }
 
 """
@@ -18,15 +26,23 @@ input OrderCreateInput {
   customerId: String!
   orderTime: DateTime!
   remark: String
+  orderItem: [OrderItemInput!]
 }
 
 input OrderUpdateInput {
   enable: Boolean
   remark: String
   status: String
+  orderItem: [OrderItemInput!]
 }
 
 input OrderSearchInput {
   orderTime_gt: DateTime
   orderTime_lt: DateTime
+}
+
+input OrderItemInput {
+  price: Float!
+  quantity: Float!
+  productId: String!
 }

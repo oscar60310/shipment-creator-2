@@ -61,3 +61,15 @@ CREATE TABLE public.orders (
   remark VARCHAR NULL,
   enable BOOLEAN NOT NULL 
 );
+
+CREATE TABLE public.order_items (
+  id UUID NOT NULL PRIMARY KEY,
+  "orderId" UUID NOT NULL REFERENCES public.orders (id) ON DELETE CASCADE,
+  "productId" UUID NOT NULL REFERENCES public.products (id),
+  quantity DECIMAL(15,5) NOT NULL,
+  price DECIMAL(15,5) NOT NULL,
+  "createdAt" TIMESTAMPTZ(3) NULL DEFAULT NOW(),
+  "updatedAt" TIMESTAMPTZ(3) NULL DEFAULT NOW(),
+  remark VARCHAR NULL
+);
+CREATE UNIQUE INDEX order_items_product ON public.order_items ("productId", "orderId");

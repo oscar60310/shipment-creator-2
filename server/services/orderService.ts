@@ -1,28 +1,56 @@
 import * as uuid from 'uuid';
 import Order, { OrderStatus } from '../utils/dbModels/order.model';
 import { Op } from 'sequelize';
+import Customer from '../utils/dbModels/customer.model';
+import OrderItem from '../utils/dbModels/orderItem.model';
+import User from '../utils/dbModels/user.model';
+import Product from '../utils/dbModels/product.model';
+import { sequelize } from '../utils/db';
 
 export default class OrderService {
   public createOne = async (data: Partial<Order>) => {
-    return await Order.create({
-      ...data,
-      enable: true,
-      id: uuid.v4(),
-      status: OrderStatus.DRAFT
-    });
+    return await Order.create(
+      {
+        ...data,
+        enable: true,
+        id: uuid.v4(),
+        status: OrderStatus.DRAFT
+      },
+      { include: [OrderItem] }
+    );
   };
 
   public updateOne = async (id: string, data: Partial<Order>) => {
-    const [updateCount, products] = await Order.update(data, {
-      returning: true,
+    const { orderItem } = data;
+    if (orderItem) {
+      await sequelize.transaction(t =>
+        OrderItem.destroy({
+          where: { orderId: id },
+          transaction: t
+        }).then(() =>
+          OrderItem.bulkCreate(
+            orderItem.map(item => ({ ...item, orderId: id, id: uuid.v4() })),
+            {
+              transaction: t
+            }
+          )
+        )
+      );
+    }
+
+    const [updateCount] = await Order.update(data, {
+      returning: false,
       where: { id }
     });
     if (updateCount === 0) throw new Error('Update product failed');
-    return products[0];
+    return await this.findOne(id);
   };
 
   public findOne = async (id: string) => {
-    return await Order.findOne({ where: { id } });
+    return await Order.findOne({
+      where: { id },
+      include: [{ model: Customer }, { model: OrderItem, include: [Product] }]
+    });
   };
 
   public findAll = async (where: {
@@ -37,7 +65,8 @@ export default class OrderService {
           [Op.lt]: where.orderTime_lt
         }
       },
-      order: [['orderTime', 'desc']]
+      order: [['orderTime', 'desc']],
+      include: [{ model: Customer }, { model: OrderItem, include: [Product] }]
     });
   };
 }

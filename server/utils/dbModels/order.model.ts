@@ -1,6 +1,14 @@
-import { Table, Column, Model, BelongsTo } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  BelongsTo,
+  HasMany,
+  ForeignKey
+} from 'sequelize-typescript';
 import User from './user.model';
 import Customer from './customer.model';
+import OrderItem from './orderItem.model';
 
 export enum OrderStatus {
   DRAFT = 'DRAFT',
@@ -26,4 +34,6 @@ export default class Order extends Model<Order> {
   remark!: string;
   @Column
   enable!: boolean;
+  @HasMany(() => OrderItem)
+  orderItem!: OrderItem[];
 }
