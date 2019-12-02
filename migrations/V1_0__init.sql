@@ -63,7 +63,7 @@ CREATE TABLE public.orders (
 );
 
 CREATE TABLE public.order_items (
-  id UUID NOT NULL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   "orderId" UUID NOT NULL REFERENCES public.orders (id) ON DELETE CASCADE,
   "productId" UUID NOT NULL REFERENCES public.products (id),
   quantity DECIMAL(15,5) NOT NULL,

@@ -5,7 +5,7 @@ type Order {
   modifyUser: User!
   updatedAt: DateTime!
   createdAt: DateTime!
-  status: String!
+  status: OrderStatus!
   orderTime: DateTime!
   remark: String
   enable: Boolean!
@@ -17,6 +17,12 @@ type OrderItem {
   price: Float!
   quantity: Float!
   product: Product!
+}
+
+enum OrderStatus {
+  DRAFT
+  ABANDON
+  CONFIRM
 }
 
 """
@@ -32,7 +38,7 @@ input OrderCreateInput {
 input OrderUpdateInput {
   enable: Boolean
   remark: String
-  status: String
+  status: OrderStatus
   orderItem: [OrderItemInput!]
 }
 

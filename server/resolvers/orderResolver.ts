@@ -1,4 +1,5 @@
 import { ApolloContext } from 'server/utils/apollo-context';
+import { OrderStatus } from '../utils/dbModels/order.model';
 
 export default class UserResolver {
   public createOne = async (_root, { data }, context: ApolloContext) => {
@@ -19,6 +20,13 @@ export default class UserResolver {
   };
 
   public updateOne = async (_root, { id, data }, context: ApolloContext) => {
+    const target = await context.orderService.findOne(id);
+    if (!target) {
+      throw new Error('Order not found');
+    }
+    if (target.status === OrderStatus.CONFIRM) {
+      throw new Error('Can not update CONFIRM orders');
+    }
     const result = await context.orderService.updateOne(id, {
       ...data,
       modifyBy: context.user.id

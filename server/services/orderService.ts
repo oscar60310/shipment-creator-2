@@ -29,7 +29,7 @@ export default class OrderService {
           transaction: t
         }).then(() =>
           OrderItem.bulkCreate(
-            orderItem.map(item => ({ ...item, orderId: id, id: uuid.v4() })),
+            orderItem.map(item => ({ ...item, orderId: id })),
             {
               transaction: t
             }
