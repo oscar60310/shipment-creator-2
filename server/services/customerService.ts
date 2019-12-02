@@ -26,4 +26,8 @@ export default class CustomerService {
     if (number === 0) throw new Error('Update failed');
     return customer[0];
   };
+
+  public findAll = async () => {
+    return await Customer.findAll({ where: { enable: true } });
+  };
 }

@@ -1,0 +1,32 @@
+type Order {
+  id: String!
+  displayId: Int!
+  customer: Customer!
+  modifyUser: User!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+  status: String!
+  orderTime: DateTime!
+  remark: String
+  enable: Boolean!
+}
+
+"""
+Input
+"""
+input OrderCreateInput {
+  customerId: String!
+  orderTime: DateTime!
+  remark: String
+}
+
+input OrderUpdateInput {
+  enable: Boolean
+  remark: String
+  status: String
+}
+
+input OrderSearchInput {
+  orderTime_gt: DateTime
+  orderTime_lt: DateTime
+}

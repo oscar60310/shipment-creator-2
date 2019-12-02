@@ -9,10 +9,12 @@ import { GraphQLDateTime } from 'graphql-iso-date';
 import { UserService } from '../services/userService';
 import CustomerService from '../services/customerService';
 import ProductService from '../services/productService';
+import OrderService from '../services/orderService';
 
 import UserResolver from '../resolvers/userResolver';
 import CustomerResolver from '../resolvers/customerResolver';
 import ProductResolver from '../resolvers/productResolver';
+import OrderResolver from '../resolvers/orderResolver';
 
 const typeDefs = gql(importSchema('server/graphql/index.graphql'));
 
@@ -20,11 +22,13 @@ const typeDefs = gql(importSchema('server/graphql/index.graphql'));
 const userService = new UserService();
 const customerService = new CustomerService();
 const productService = new ProductService();
+const orderService = new OrderService();
 
 // Resolvers
 const userResolver = new UserResolver();
 const customerResolver = new CustomerResolver();
 const productResolver = new ProductResolver();
+const orderResolver = new OrderResolver();
 
 const authenticator = next => (root, args, context, info) => {
   if (!context.user) {
@@ -52,19 +56,25 @@ const resolvers = withAuthenticator({
     me: userResolver.findMe,
     login: userResolver.login,
     customer: customerResolver.findOne,
+    customers: customerResolver.findAll,
     product: productResolver.findOne,
-    products: productResolver.findAll
+    products: productResolver.findAll,
+    order: orderResolver.findOne,
+    orders: orderResolver.findAll
   },
   Mutation: {
     createUser: userResolver.createOne,
     createCustomer: customerResolver.createOne,
     updateCustomer: customerResolver.updateOne,
     createProduct: productResolver.createOne,
-    updateProduct: productResolver.updateOne
+    updateProduct: productResolver.updateOne,
+    createOrder: orderResolver.createOne,
+    updateOrder: orderResolver.updateOne
   },
   // Nested
   Customer: customerResolver.nested(),
-  Product: productResolver.nested()
+  Product: productResolver.nested(),
+  Order: orderResolver.nested()
 });
 
 const resolversWithScalar = { ...resolvers, DateTime: GraphQLDateTime };
@@ -91,7 +101,8 @@ export const server = new ApolloServer({
       user,
       userService,
       customerService,
-      productService
+      productService,
+      orderService
     } as ApolloContext;
   }
 });

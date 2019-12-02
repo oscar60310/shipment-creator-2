@@ -3,6 +3,9 @@ import logger from './logger';
 import User from './dbModels/user.model';
 import Customer from './dbModels/customer.model';
 import Product from './dbModels/product.model';
+import Order from './dbModels/order.model';
+
+const models = [User, Customer, Product, Order];
 
 export const connect = async () => {
   const sequelize = new Sequelize({
@@ -18,7 +21,7 @@ export const connect = async () => {
       acquire: 30000,
       idle: 10000
     },
-    models: [User, Customer, Product]
+    models
   });
 
   sequelize
@@ -26,5 +29,5 @@ export const connect = async () => {
     .then(() => logger.info('DB connect success'))
     .catch(e => logger.error('DB connect failed', e));
 
-  sequelize.addModels([User, Customer, Product]);
+  sequelize.addModels(models);
 };
