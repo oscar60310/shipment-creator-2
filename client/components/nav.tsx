@@ -38,7 +38,7 @@ export const Nav = () => {
           className={Classes.MINIMAL}
           icon="box"
           text="產品設定"
-          href="#/item"
+          href="#/products"
         />
       </NavbarGroup>
     </Navbar>
