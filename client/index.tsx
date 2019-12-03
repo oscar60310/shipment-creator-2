@@ -1,7 +1,7 @@
 /*global document */
 import * as React from 'react';
 import { render } from 'react-dom';
+import AppComponent from './components/app';
 
 const app = document.getElementById('app');
-render(<div>1234</div>, app);
-// Service worker register
+render(<AppComponent />, app);

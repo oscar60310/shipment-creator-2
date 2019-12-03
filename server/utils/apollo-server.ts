@@ -115,7 +115,7 @@ export const startServer = async () => {
   if (process.env.NODE_ENV === 'development') {
     logger.info('Start koa webpack');
     const koaWebpack = require('koa-webpack');
-    const config = require('../../webpack.config.js');
+    const config = require('../../webpack.config');
     const middleware = await koaWebpack({
       config,
       devMiddleware: {
