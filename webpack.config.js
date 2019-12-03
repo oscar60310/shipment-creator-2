@@ -6,10 +6,9 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
+  mode: 'development',
   context: path.resolve(__dirname, 'client'),
-  entry: {
-    client: './index'
-  },
+  entry: ['./index'],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     plugins: [new TsconfigPathsPlugin()]

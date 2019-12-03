@@ -15,6 +15,7 @@ import UserResolver from '../resolvers/userResolver';
 import CustomerResolver from '../resolvers/customerResolver';
 import ProductResolver from '../resolvers/productResolver';
 import OrderResolver from '../resolvers/orderResolver';
+import logger from './logger';
 
 const typeDefs = gql(importSchema('server/graphql/index.graphql'));
 
@@ -106,5 +107,22 @@ export const server = new ApolloServer({
     } as ApolloContext;
   }
 });
-export const app = new Koa();
-server.applyMiddleware({ app });
+
+export const startServer = async () => {
+  const app = new Koa();
+  server.applyMiddleware({ app });
+
+  if (process.env.NODE_ENV === 'development') {
+    logger.info('Start koa webpack');
+    const koaWebpack = require('koa-webpack');
+    const config = require('../../webpack.config.js');
+    const middleware = await koaWebpack({
+      config,
+      devMiddleware: {
+        publicPath: '/'
+      }
+    });
+    app.use(middleware);
+  }
+  return app;
+};
