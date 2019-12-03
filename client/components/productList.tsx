@@ -6,16 +6,23 @@ import {
   FormGroup,
   Card,
   Elevation,
-  ButtonGroup
+  ButtonGroup,
+  Callout
 } from '@blueprintjs/core';
 import { pick } from 'lodash';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { GET_PRODUCTS, UPDATE_PRODUCT } from '../queries/product';
+import {
+  GET_PRODUCTS,
+  UPDATE_PRODUCT,
+  CREATE_PRODUCT
+} from '../queries/product';
 import { products_products, products } from '../generated/products';
 import {
   updateProductVariables,
   updateProduct
 } from '../generated/updateProduct';
+import CustomDialog from './customDialog';
+import { createProduct } from '../generated/createProduct';
 
 const ProductCard = (props: {
   data: products_products;
@@ -105,14 +112,78 @@ const ProductCard = (props: {
 };
 const ProductList = () => {
   const { data, client } = useQuery<products>(GET_PRODUCTS);
+  const [
+    createProduct,
+    { loading: createLoading, error: createError }
+  ] = useMutation<createProduct>(CREATE_PRODUCT, {
+    onCompleted: ({ createProduct }) => {
+      client.writeData({
+        data: { products: [...data.products, createProduct] }
+      });
+      setCreateDialogOpen(false);
+      setCreationData({ name: '', price: 0, unit: '' });
+    }
+  });
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [creationData, setCreationData] = useState({
+    name: '',
+    price: 0,
+    unit: ''
+  });
   const removeProduct = id =>
     client.writeData({
       data: { products: data.products.filter(product => product.id !== id) }
     });
+  const createForm = (
+    <>
+      <FormGroup label="名稱" labelFor="name-input">
+        <InputGroup
+          id="name-input"
+          placeholder="白菜"
+          onChange={e =>
+            setCreationData({ ...creationData, name: e.target.value })
+          }
+          defaultValue=""
+        />
+      </FormGroup>
+      <ControlGroup fill={true} vertical={false}>
+        <FormGroup label="單位" labelFor="unit-input">
+          <InputGroup
+            id="unit-input"
+            placeholder="斤"
+            defaultValue=""
+            onChange={e =>
+              setCreationData({ ...creationData, unit: e.target.value })
+            }
+          />
+        </FormGroup>
+        <FormGroup label="參考價格" labelFor="price-input">
+          <InputGroup
+            id="price-input"
+            defaultValue="0"
+            type="number"
+            onChange={e =>
+              setCreationData({
+                ...creationData,
+                price: Number(e.target.value)
+              })
+            }
+          />
+        </FormGroup>
+      </ControlGroup>
+      {createError && (
+        <Callout intent="danger" title="建立失敗">
+          {createError.message}
+        </Callout>
+      )}
+    </>
+  );
   return (
     <div>
       <h2 className="bp3-heading">商品列表</h2>
-      <Button icon="plus">新增</Button>
+      <Button icon="plus" onClick={() => setCreateDialogOpen(true)}>
+        新增
+      </Button>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {data &&
           data.products.map(product => (
@@ -128,6 +199,23 @@ const ProductList = () => {
             </div>
           ))}
       </div>
+      <CustomDialog
+        isOpen={createDialogOpen}
+        onClose={() => setCreateDialogOpen(false)}
+        footer={
+          <Button
+            minimal
+            loading={createLoading}
+            onClick={() => {
+              createProduct({ variables: { data: creationData } });
+            }}
+          >
+            建立
+          </Button>
+        }
+        content={createForm}
+        title="建立產品"
+      />
     </div>
   );
 };
