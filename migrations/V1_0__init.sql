@@ -24,6 +24,7 @@ INSERT INTO public.users VALUES (
 
 CREATE TABLE public.customers (
   id UUID NOT NULL PRIMARY KEY,
+  "displayId" SERIAL,
   name VARCHAR NOT NULL,
   address VARCHAR NULL,
   phone VARCHAR NULL,
@@ -33,7 +34,7 @@ CREATE TABLE public.customers (
   remark VARCHAR NULL,
   enable BOOLEAN NOT NULL
 );
-CREATE UNIQUE INDEX public_customer_name ON public.customers(name);
+CREATE INDEX public_customer_name ON public.customers(name);
 
 CREATE TABLE public.products (
   id UUID NOT NULL PRIMARY KEY,
@@ -47,7 +48,7 @@ CREATE TABLE public.products (
   remark VARCHAR NULL,
   enable BOOLEAN NOT NULL
 );
-CREATE UNIQUE INDEX public_product_name ON public.products(name);
+CREATE INDEX public_product_name ON public.products(name);
 
 CREATE TABLE public.orders (
   id UUID NOT NULL PRIMARY KEY,

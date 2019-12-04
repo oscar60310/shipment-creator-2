@@ -6,6 +6,8 @@ export default class Customer extends Model<Customer> {
   @Column({ primaryKey: true })
   id!: string;
   @Column
+  displayId!: number;
+  @Column
   name!: string;
   @Column
   address!: string;

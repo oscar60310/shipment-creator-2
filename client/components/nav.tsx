@@ -32,7 +32,7 @@ export const Nav = () => {
           className={Classes.MINIMAL}
           icon="person"
           text="客戶設定"
-          href="#/customer"
+          href="#/customers"
         />
         <AnchorButton
           className={Classes.MINIMAL}

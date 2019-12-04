@@ -9,6 +9,24 @@
 /**
  * Input
  */
+export interface CustomerCreateInput {
+  name: string;
+  phone?: string | null;
+  address?: string | null;
+  remark?: string | null;
+}
+
+export interface CustomerUpdateInput {
+  name?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  remark?: string | null;
+  enable?: boolean | null;
+}
+
+/**
+ * Input
+ */
 export interface ProductCreateInput {
   name: string;
   unit?: string | null;

@@ -6,6 +6,7 @@ import { hot } from 'react-hot-loader/root';
 import { Nav } from './nav';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import ProductList from './productList';
+import CustomerList from './customerList';
 
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql',
@@ -24,18 +25,18 @@ const LoadResource = (props: { children: any }) => {
   return finish ? (
     props.children
   ) : (
-    <div
-      style={{
-        width: '100%',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-    >
-      Loading ...
+      <div
+        style={{
+          width: '100%',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        Loading ...
     </div>
-  );
+    );
 };
 const AppComponent = () => {
   return (
@@ -48,6 +49,9 @@ const AppComponent = () => {
               <Switch>
                 <Route path="/products">
                   <ProductList />
+                </Route>
+                <Route path="/customers">
+                  <CustomerList />
                 </Route>
               </Switch>
             </Router>

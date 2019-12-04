@@ -11,6 +11,10 @@ import { ProductCreateInput } from "./globalTypes";
 export interface createProduct_createProduct {
   __typename: "Product";
   id: string;
+  name: string;
+  price: number | null;
+  displayId: number;
+  unit: string | null;
 }
 
 export interface createProduct {
