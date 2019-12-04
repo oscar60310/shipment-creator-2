@@ -24,6 +24,11 @@ export interface CustomerUpdateInput {
   enable?: boolean | null;
 }
 
+export interface OrderSearchInput {
+  orderTime_gt?: any | null;
+  orderTime_lt?: any | null;
+}
+
 /**
  * Input
  */

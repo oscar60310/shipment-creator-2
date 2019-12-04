@@ -19,7 +19,7 @@ export const Nav = () => {
         <AnchorButton
           className={Classes.MINIMAL}
           icon="home"
-          text="建立出貨單"
+          text="訂單列表"
           href="#"
         />
         <AnchorButton

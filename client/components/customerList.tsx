@@ -18,7 +18,11 @@ import {
 } from '../generated/updateCustomer';
 import CustomDialog from './customDialog';
 import { createCustomer } from '../generated/createCustomer';
-import { GET_CUSTOMERS, CREATE_CUSTOMER, UPDATE_CUSTOMER } from '../queries/customer';
+import {
+  GET_CUSTOMERS,
+  CREATE_CUSTOMER,
+  UPDATE_CUSTOMER
+} from '../queries/customer';
 
 const CustomerCard = (props: {
   data: customers_customers;
@@ -104,16 +108,15 @@ const CustomerList = () => {
         data: { customers: [...data.customers, createCustomer] }
       });
       setCreateDialogOpen(false);
-      setCreationData({    name: '',
-      address:'' });
+      setCreationData({ name: '', address: '' });
     }
   });
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [creationData, setCreationData] = useState({
     name: '',
-    address:'',
+    address: ''
   });
-  const removeCustomer= id =>
+  const removeCustomer = id =>
     client.writeData({
       data: { customers: data.customers.filter(customer => customer.id !== id) }
     });
