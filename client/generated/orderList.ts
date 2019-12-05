@@ -2,7 +2,7 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { OrderSearchInput } from "./globalTypes";
+import { OrderSearchInput, OrderStatus } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: orderList
@@ -20,6 +20,7 @@ export interface orderList_orders {
   customer: orderList_orders_customer;
   orderTime: any;
   orderNumber: string | null;
+  status: OrderStatus;
 }
 
 export interface orderList {

@@ -9,6 +9,8 @@ export const GET_ORDER_LIST = gql`
       }
       orderTime
       orderNumber
+      displayId
+      status
     }
   }
 `;

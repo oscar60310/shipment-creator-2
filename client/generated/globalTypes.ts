@@ -6,6 +6,12 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum OrderStatus {
+  ABANDON = "ABANDON",
+  CONFIRM = "CONFIRM",
+  DRAFT = "DRAFT",
+}
+
 /**
  * Input
  */
