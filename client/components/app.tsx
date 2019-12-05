@@ -8,6 +8,7 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import ProductList from './productList';
 import CustomerList from './customerList';
 import OrderList from './orderList';
+import Order from './order';
 
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql',
@@ -53,6 +54,9 @@ const AppComponent = () => {
                 </Route>
                 <Route path="/customers">
                   <CustomerList />
+                </Route>
+                <Route path="/order/:id">
+                  <Order />
                 </Route>
                 <Route path="/">
                   <OrderList />
