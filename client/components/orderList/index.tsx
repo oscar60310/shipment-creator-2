@@ -21,7 +21,6 @@ const OrderList = () => {
       }
     });
   };
-  console.log(orderQuery);
   return (
     <>
       <h2 className="bp3-heading">訂單列表</h2>

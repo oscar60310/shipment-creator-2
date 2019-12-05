@@ -6,9 +6,9 @@ import { Tag } from '@blueprintjs/core';
 import { Redirect } from 'react-router-dom';
 
 const OrderTable = (props: { orders: orderList_orders[] }) => {
+  const [redirect, setRedirect] = React.useState(null);
+
   const orderRow = (order: orderList_orders) => {
-    const [redirect, setRedirect] = React.useState(false);
-    if (redirect) return <Redirect key={order.id} to={`/order/${order.id}`} />;
     const orderTime = dayjs(order.orderTime);
     const status =
       order.status === OrderStatus.CONFIRM ? (
@@ -17,7 +17,7 @@ const OrderTable = (props: { orders: orderList_orders[] }) => {
         <Tag intent="none">草稿</Tag>
       );
     return (
-      <tr key={order.id} onClick={() => setRedirect(true)}>
+      <tr key={order.id} onClick={() => setRedirect(order.id)}>
         <td>{order.displayId}</td>
         <td>{status}</td>
         <td>{orderTime.format('YYYY-MM-DD')}</td>
@@ -26,6 +26,9 @@ const OrderTable = (props: { orders: orderList_orders[] }) => {
       </tr>
     );
   };
+
+  if (redirect) return <Redirect to={`/order/${redirect}`} />;
+
   return (
     <table className="bp3-html-table bp3-interactive" style={{ width: '100%' }}>
       <thead>
