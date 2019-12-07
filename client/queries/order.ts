@@ -52,3 +52,12 @@ export const GET_ORDER_DETAIL = gql`
   }
   ${ORDER_DETAIL}
 `;
+
+export const UPDATE_ORDER = gql`
+  mutation updateOrder($id: String!, $data: OrderUpdateInput!) {
+    updateOrder(id: $id, data: $data) {
+      ...OrderDetail
+    }
+  }
+  ${ORDER_DETAIL}
+`;

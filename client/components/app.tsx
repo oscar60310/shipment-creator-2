@@ -46,7 +46,13 @@ const AppComponent = () => {
       <LoadResource>
         <ApolloProvider client={client}>
           <Nav />
-          <div style={{ padding: 10 }}>
+          <div
+            style={{
+              padding: 10,
+              height: 'calc(100% - 50px)',
+              overflow: 'hidden'
+            }}
+          >
             <Router>
               <Switch>
                 <Route path="/products">

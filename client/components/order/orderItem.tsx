@@ -65,6 +65,7 @@ const OrderItem = (props: {
       <td style={verticalCenter}>{data.product && data.product.unit}</td>
       <td>
         <NumericInput
+          fill
           value={data.price}
           onValueChange={value => {
             onUpdate({
@@ -76,6 +77,7 @@ const OrderItem = (props: {
       </td>
       <td>
         <NumericInput
+          fill
           value={data.quantity}
           onValueChange={value => {
             onUpdate({

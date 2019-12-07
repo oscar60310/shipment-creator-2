@@ -13,6 +13,7 @@ import { Divider, Spinner, Button } from '@blueprintjs/core';
 import OrderDetail from './detail';
 import OrderItem from './orderItem';
 import { EditableOrderDetail } from './orderModel';
+import OrderOperation from './orderOperation';
 
 const Order = () => {
   let { id } = useParams();
@@ -57,7 +58,7 @@ const Order = () => {
   const orderItemOperation = () => {
     if (!orderData) return <Spinner size={50} intent="primary" />;
     return (
-      <>
+      <div style={{ flex: '1 1 0', overflow: 'auto' }}>
         <OrderDetail order={orderData} />
         <Divider />
         <Button text="新增項目" onClick={addOrderItem} icon="plus" />
@@ -86,15 +87,20 @@ const Order = () => {
             ))}
           </tbody>
         </table>
-      </>
+      </div>
     );
   };
+  const orderOperation = <div style={{ height: 50 }}></div>;
   return (
-    <>
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <h2 className="bp3-heading">訂單資料</h2>
       <Divider />
+      <div style={{ padding: '0 5px' }}>
+        <OrderOperation order={orderData} />
+      </div>
+      <Divider />
       {orderItemOperation()}
-    </>
+    </div>
   );
 };
 

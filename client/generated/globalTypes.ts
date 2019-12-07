@@ -30,9 +30,22 @@ export interface CustomerUpdateInput {
   enable?: boolean | null;
 }
 
+export interface OrderItemInput {
+  price: number;
+  quantity: number;
+  productId: string;
+}
+
 export interface OrderSearchInput {
   orderTime_gt?: any | null;
   orderTime_lt?: any | null;
+}
+
+export interface OrderUpdateInput {
+  enable?: boolean | null;
+  remark?: string | null;
+  status?: OrderStatus | null;
+  orderItem?: OrderItemInput[] | null;
 }
 
 /**
