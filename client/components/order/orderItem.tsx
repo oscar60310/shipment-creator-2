@@ -35,7 +35,7 @@ const OrderItem = (props: {
   onDelete: (data: Partial<orderDetail_order_orderItem>) => void;
 }) => {
   const { data, onUpdate, onDelete } = props;
-  const { data: productList, client } = useQuery<products>(GET_PRODUCTS);
+  const { data: productList } = useQuery<products>(GET_PRODUCTS);
   if (!productList || !productList.products)
     return (
       <tr>

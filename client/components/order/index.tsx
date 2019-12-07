@@ -14,6 +14,8 @@ import OrderDetail from './detail';
 import OrderItem from './orderItem';
 import { EditableOrderDetail } from './orderModel';
 import OrderOperation from './orderOperation';
+import { OrderStatus } from '../../generated/globalTypes';
+import ReadOnlyOrderItem from './readOnlyOrderItem';
 
 const Order = () => {
   let { id } = useParams();
@@ -57,11 +59,17 @@ const Order = () => {
   };
   const orderItemOperation = () => {
     if (!orderData) return <Spinner size={50} intent="primary" />;
+    const readonly = orderData.status === OrderStatus.CONFIRM;
     return (
       <div style={{ flex: '1 1 0', overflow: 'auto' }}>
         <OrderDetail order={orderData} />
         <Divider />
-        <Button text="新增項目" onClick={addOrderItem} icon="plus" />
+        <Button
+          text="新增項目"
+          onClick={addOrderItem}
+          icon="plus"
+          disabled={readonly}
+        />
         <table
           className="bp3-html-table bp3-html-table-striped"
           style={{ width: '100%' }}
@@ -77,14 +85,18 @@ const Order = () => {
             </tr>
           </thead>
           <tbody>
-            {orderData.orderItem.map(item => (
-              <OrderItem
-                data={item}
-                key={item.id}
-                onUpdate={updateOrderItem}
-                onDelete={deleteOrderItem}
-              />
-            ))}
+            {orderData.orderItem.map(item =>
+              readonly ? (
+                <ReadOnlyOrderItem data={item} key={item.id} />
+              ) : (
+                <OrderItem
+                  data={item}
+                  key={item.id}
+                  onUpdate={updateOrderItem}
+                  onDelete={deleteOrderItem}
+                />
+              )
+            )}
           </tbody>
         </table>
       </div>

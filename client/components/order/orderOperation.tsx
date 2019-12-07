@@ -9,6 +9,7 @@ import { OrderStatus } from '../../generated/globalTypes';
 const OrderOperation = (props: { order: EditableOrderDetail }) => {
   const { order } = props;
   if (!order) return null;
+  const readonly = order.status === OrderStatus.CONFIRM;
   const totalPrice = order.orderItem.reduce(
     (total, item) => total + item.price * item.quantity,
     0
@@ -37,11 +38,43 @@ const OrderOperation = (props: { order: EditableOrderDetail }) => {
       variables: {
         id: order.id,
         data: {
-          status: OrderStatus.CONFIRM
+          status: OrderStatus.CONFIRM,
+          orderItem: order.orderItem.map(item => ({
+            price: item.price,
+            quantity: item.quantity,
+            productId: item.product.id
+          }))
         }
       }
     });
   };
+  const draftButtons = (
+    <>
+      <Button
+        text="確認訂單"
+        intent="warning"
+        onClick={() => setConfirmDialogOpen(true)}
+        loading={updateLoading}
+        style={{ marginRight: 10 }}
+      />
+      <Button
+        text="儲存"
+        intent="success"
+        onClick={updateOrderItem}
+        loading={updateLoading}
+      />
+    </>
+  );
+  const readonlyButtons = (
+    <>
+      <Button
+        text="列印"
+        intent="success"
+        onClick={updateOrderItem}
+        loading={updateLoading}
+      />
+    </>
+  );
   return (
     <div
       style={{
@@ -55,19 +88,7 @@ const OrderOperation = (props: { order: EditableOrderDetail }) => {
       </div>
       <div style={{ width: '100%', textAlign: 'center' }}>Status</div>
       <div style={{ width: '100%', textAlign: 'right' }}>
-        <Button
-          text="確認訂單"
-          intent="warning"
-          onClick={() => setConfirmDialogOpen(true)}
-          loading={updateLoading}
-          style={{ marginRight: 10 }}
-        />
-        <Button
-          text="儲存"
-          intent="success"
-          onClick={updateOrderItem}
-          loading={updateLoading}
-        />
+        {readonly ? readonlyButtons : draftButtons}
       </div>
       <Alert
         icon="saved"
