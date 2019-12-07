@@ -3,10 +3,10 @@ import { orderList_orders } from '../../generated/orderList';
 import dayjs from 'dayjs';
 import { OrderStatus } from '../../generated/globalTypes';
 import { Tag } from '@blueprintjs/core';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
 const OrderTable = (props: { orders: orderList_orders[] }) => {
-  const [redirect, setRedirect] = React.useState(null);
+  const history = useHistory();
 
   const orderRow = (order: orderList_orders) => {
     const orderTime = dayjs(order.orderTime);
@@ -17,7 +17,7 @@ const OrderTable = (props: { orders: orderList_orders[] }) => {
         <Tag intent="none">草稿</Tag>
       );
     return (
-      <tr key={order.id} onClick={() => setRedirect(order.id)}>
+      <tr key={order.id} onClick={() => history.push(`/order/${order.id}`)}>
         <td>{order.displayId}</td>
         <td>{status}</td>
         <td>{orderTime.format('YYYY-MM-DD')}</td>
@@ -26,8 +26,6 @@ const OrderTable = (props: { orders: orderList_orders[] }) => {
       </tr>
     );
   };
-
-  if (redirect) return <Redirect to={`/order/${redirect}`} />;
 
   return (
     <table
