@@ -1,10 +1,13 @@
 import React from 'react';
 import { EditableOrderDetail } from './orderModel';
 import { Button, Alert } from '@blueprintjs/core';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import { UPDATE_ORDER } from '../../queries/order';
 import { updateOrder, updateOrderVariables } from '../../generated/updateOrder';
 import { OrderStatus } from '../../generated/globalTypes';
+import { GET_SYSTEM_INFO } from '../../queries/info';
+import { systemInfo } from '../../generated/systemInfo';
+import { createHalfA4Report } from '../../utilities/report/half-a4';
 
 const OrderOperation = (props: { order: EditableOrderDetail }) => {
   const { order } = props;
@@ -19,6 +22,10 @@ const OrderOperation = (props: { order: EditableOrderDetail }) => {
     updateOrderVariables
   >(UPDATE_ORDER);
   const [confirmDialogOpen, setConfirmDialogOpen] = React.useState(false);
+  const { data: config, loading: configLoading } = useQuery<systemInfo>(
+    GET_SYSTEM_INFO
+  );
+
   const updateOrderItem = () => {
     updateOrder({
       variables: {
@@ -70,8 +77,11 @@ const OrderOperation = (props: { order: EditableOrderDetail }) => {
       <Button
         text="列印"
         intent="success"
-        onClick={updateOrderItem}
+        onClick={() => {
+          createHalfA4Report(order as any, config.systemInfo);
+        }}
         loading={updateLoading}
+        disabled={configLoading}
       />
     </>
   );
