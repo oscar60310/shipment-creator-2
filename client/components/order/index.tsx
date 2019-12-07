@@ -61,10 +61,13 @@ const Order = () => {
         <OrderDetail order={orderData} />
         <Divider />
         <Button text="新增項目" onClick={addOrderItem} icon="plus" />
-        <table className="bp3-html-table" style={{ width: '100%' }}>
+        <table
+          className="bp3-html-table bp3-html-table-striped"
+          style={{ width: '100%' }}
+        >
           <thead>
             <tr>
-              <th>產品</th>
+              <th style={{ width: '30%' }}>產品</th>
               <th>單位</th>
               <th>單價</th>
               <th>數量</th>

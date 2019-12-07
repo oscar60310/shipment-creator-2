@@ -7,6 +7,9 @@ import { Select } from '@blueprintjs/select';
 import { MenuItem, Button, Spinner, NumericInput } from '@blueprintjs/core';
 
 const ProductSelect = Select.ofType<products_products>();
+const verticalCenter = {
+  verticalAlign: 'middle'
+};
 
 export const renderProductMenuItem = (
   item: products_products,
@@ -59,7 +62,7 @@ const OrderItem = (props: {
           />
         </ProductSelect>
       </td>
-      <td>{data.product && data.product.unit}</td>
+      <td style={verticalCenter}>{data.product && data.product.unit}</td>
       <td>
         <NumericInput
           value={data.price}
@@ -82,7 +85,7 @@ const OrderItem = (props: {
           }}
         />
       </td>
-      <td>
+      <td style={verticalCenter}>
         {data.price && data.quantity && (data.price * data.quantity).toFixed(2)}
       </td>
       <td>
