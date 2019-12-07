@@ -13,6 +13,7 @@ services:
       POSTGRES_PASSWORD: sctest
     ports:
       - 5432:5432
+    restart: always
   flyway:
     image: flyway/flyway
     command: -url=jdbc:postgresql://pg/sctest -user=sctest -password=sctest -connectRetries=60 migrate
@@ -28,6 +29,7 @@ services:
       NODE_ENV: production
     volumes:
       - C:/Users/oscar/projects/sc-volume/config:/sc-web/config
+    restart: always
     depends_on:
       - pg
       - flyway
