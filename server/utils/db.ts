@@ -10,7 +10,7 @@ import config from '../config';
 const models = [User, Customer, Product, Order, OrderItem];
 
 export const sequelize = new Sequelize({
-  host: process.env.DB_HOST || 'localhost',
+  host: config.dbHost || 'localhost',
   port: Number(process.env.DB_PORT) || 5432,
   dialect: 'postgres',
   username: config.dbUser,
