@@ -8,7 +8,8 @@ import { OrderStatus } from '../../generated/globalTypes';
 import { GET_SYSTEM_INFO } from '../../queries/info';
 import { systemInfo } from '../../generated/systemInfo';
 import { createHalfA4Report } from '../../utilities/report/half-a4';
-import { validateOrder } from './orderValidator';
+import { validateOrder, isOrderItemChange } from './orderValidator';
+import { useDebounce } from '../../utilities/debounce';
 
 enum EditorStatus {
   ERROR,
@@ -17,11 +18,23 @@ enum EditorStatus {
   SUCCESS
 }
 
-const getStatus = ({ issues }: { issues: string[] }) => {
+const getStatus = ({
+  issues,
+  orderUploaded
+}: {
+  issues: string[];
+  orderUploaded: boolean;
+}) => {
   if (issues.length > 0) {
     return {
       status: EditorStatus.ERROR,
       text: `發生問題: ${issues[0]}`
+    };
+  }
+  if (!orderUploaded) {
+    return {
+      status: EditorStatus.WARNING,
+      text: `訂單將在稍後儲存...`
     };
   }
   return {
@@ -44,6 +57,16 @@ const getColor = (status: EditorStatus) => {
   return Colors.BLACK;
 };
 
+const useOrderChange = (func: () => void) => {
+  const ref = React.useRef(null);
+  return value => {
+    if (ref.current && isOrderItemChange(ref.current, value)) {
+      func();
+    }
+    ref.current = value;
+  };
+};
+
 const OrderOperation = (props: { order: EditableOrderDetail }) => {
   const { order } = props;
   if (!order) return null;
@@ -52,22 +75,37 @@ const OrderOperation = (props: { order: EditableOrderDetail }) => {
     (total, item) => total + item.price * item.quantity,
     0
   );
+  const [orderUploaded, setOrderUploaded] = React.useState(true);
   const [updateOrder, { loading: updateLoading }] = useMutation<
     updateOrder,
     updateOrderVariables
-  >(UPDATE_ORDER);
+  >(UPDATE_ORDER, {
+    onCompleted: () => setOrderUploaded(true)
+  });
   const [confirmDialogOpen, setConfirmDialogOpen] = React.useState(false);
   const { data: config, loading: configLoading } = useQuery<systemInfo>(
     GET_SYSTEM_INFO
   );
   const [issues, setIssue] = React.useState<string[]>([]);
 
+  const orderEdited = useDebounce(() => {
+    if (
+      !orderUploaded &&
+      issues.length === 0 &&
+      order.status === OrderStatus.DRAFT
+    ) {
+      updateOrderItem();
+    }
+  }, 5000);
   // order updated
-  React.useEffect(() => {
+  const checkOrder = useOrderChange(() => {
     setIssue(validateOrder(order));
-  }, [order]);
+    setOrderUploaded(false);
+  });
+  React.useEffect(() => checkOrder(order), [order]);
+  React.useEffect(() => orderEdited(), [orderUploaded]);
 
-  const { status, text } = getStatus({ issues });
+  const { status, text } = getStatus({ issues, orderUploaded });
   const updateOrderItem = () => {
     updateOrder({
       variables: {

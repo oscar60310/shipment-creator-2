@@ -1,4 +1,5 @@
 import { EditableOrderDetail } from './orderModel';
+import { isEqual, omit } from 'lodash';
 
 export const validateOrder = (order: EditableOrderDetail): string[] => {
   const issues: string[] = [];
@@ -21,4 +22,15 @@ export const validateOrder = (order: EditableOrderDetail): string[] => {
   }
 
   return issues;
+};
+
+export const isOrderItemChange = (
+  order1: EditableOrderDetail,
+  order2: EditableOrderDetail
+): boolean => {
+  if (!order1.orderItem || !order2.orderItem) return false;
+  if (order1.orderItem.length !== order2.orderItem.length) return true;
+  return !order1.orderItem.every((order1Item, index) =>
+    isEqual(omit(order1Item, 'id'), omit(order2.orderItem[index], 'id'))
+  );
 };
