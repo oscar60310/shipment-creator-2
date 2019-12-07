@@ -14,13 +14,19 @@ export interface IConfig {
   companyAddress: string;
   companyPhone: string;
   port: number;
+  dbName: string;
+  dbUser: string;
+  dbPass: string;
 }
 
 let config: IConfig = {
   companyName: 'Test Company',
   companyAddress: '',
   companyPhone: '',
-  port: 3000
+  port: 3000,
+  dbName: '',
+  dbUser: '',
+  dbPass: ''
 };
 
 const configPath = path.join(configFolder, 'shipment-creator-2.yaml');

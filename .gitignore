@@ -1,3 +1,6 @@
 node_modules
 flyway*
 .vscode
+build
+config/shipment-creator-2.yaml
+*.log

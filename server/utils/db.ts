@@ -5,6 +5,7 @@ import Customer from './dbModels/customer.model';
 import Product from './dbModels/product.model';
 import Order from './dbModels/order.model';
 import OrderItem from './dbModels/orderItem.model';
+import config from '../config';
 
 const models = [User, Customer, Product, Order, OrderItem];
 
@@ -12,9 +13,9 @@ export const sequelize = new Sequelize({
   host: process.env.DB_HOST || 'localhost',
   port: Number(process.env.DB_PORT) || 5432,
   dialect: 'postgres',
-  username: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+  username: config.dbUser,
+  password: config.dbPass,
+  database: config.dbName,
   pool: {
     max: 5,
     min: 0,

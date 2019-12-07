@@ -1,6 +1,7 @@
 import { ApolloServer, gql, AuthenticationError } from 'apollo-server-koa';
 import { importSchema } from 'graphql-import';
 import Koa from 'koa';
+import * as path from 'path';
 import { ApolloContext } from './apollo-context';
 import { validateToken } from './auth';
 import { mapValues } from 'lodash';
@@ -88,19 +89,24 @@ export const server = new ApolloServer({
   typeDefs,
   resolvers: resolversWithScalar,
   context: ({ ctx }) => {
-    const token = ctx.header.authorization || '';
-    let user;
-    try {
-      user = validateToken(token);
-    } catch {}
+    // Remove auth validation in beta
+    // const token = ctx.header.authorization || '';
+    // let user;
+    // try {
+    //   user = validateToken(token);
+    // } catch {}
 
-    // develop mode
-    if (!user && process.env.NODE_ENV === 'development') {
-      user = {
-        id: 'b6ddbc79-8709-49c6-a8a7-fc62a3869a25',
-        role: 'ADMIN'
-      };
-    }
+    // // develop mode
+    // if (!user && process.env.NODE_ENV === 'development') {
+    //   user = {
+    //     id: 'b6ddbc79-8709-49c6-a8a7-fc62a3869a25',
+    //     role: 'ADMIN'
+    //   };
+    // }
+    const user = {
+      id: 'b6ddbc79-8709-49c6-a8a7-fc62a3869a25',
+      role: 'ADMIN'
+    };
 
     return {
       user,
@@ -128,6 +134,10 @@ export const startServer = async () => {
       }
     });
     app.use(middleware);
+  } else {
+    const staticPath = path.join(__dirname, '..', '..', 'static');
+    logger.info(`Using ${staticPath} as static file folder`);
+    app.use(require('koa-static')(staticPath));
   }
   return app;
 };

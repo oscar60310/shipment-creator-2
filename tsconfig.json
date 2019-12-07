@@ -15,10 +15,11 @@
     "typeRoots": [
       "./node_modules/@types",
       "./src/types"
-    ]
+    ],
+    "outDir": "./build/server"
   },
   "files": [
-    "./server/app.tsx"
+    "./server/app.ts"
   ],
   "include": [
     "./server/**/*"
