@@ -17,7 +17,7 @@ type OrderItem {
   id: String!
   price: Float!
   quantity: Float!
-  product: Product!
+  product: Product
 }
 
 enum OrderStatus {

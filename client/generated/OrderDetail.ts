@@ -25,9 +25,10 @@ export interface OrderDetail_orderItem_product {
 
 export interface OrderDetail_orderItem {
   __typename: "OrderItem";
+  id: string;
   price: number;
   quantity: number;
-  product: OrderDetail_orderItem_product;
+  product: OrderDetail_orderItem_product | null;
 }
 
 export interface OrderDetail {

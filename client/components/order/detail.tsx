@@ -1,8 +1,8 @@
 import React, { CSSProperties } from 'react';
 import { Tag, Colors } from '@blueprintjs/core';
 import dayjs from 'dayjs';
-import { orderDetail_order } from '../../generated/orderDetail';
 import { OrderStatus } from '../../generated/globalTypes';
+import { EditableOrderDetail } from './orderModel';
 
 const InfoBlock = (props: { title: string; children: React.ReactNode }) => {
   return (
@@ -25,7 +25,7 @@ const rowStyle: CSSProperties = {
   width: '100%'
 };
 
-const OrderDetail = (props: { order: orderDetail_order }) => {
+const OrderDetail = (props: { order: EditableOrderDetail }) => {
   const { order } = props;
   const status =
     order.status === OrderStatus.CONFIRM ? (

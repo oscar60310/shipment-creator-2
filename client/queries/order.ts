@@ -15,6 +15,7 @@ const ORDER_DETAIL = gql`
     status
     remark
     orderItem {
+      id
       price
       quantity
       product {
