@@ -20,7 +20,7 @@ import SystemInfoResolver from '../resolvers/systemInfoResolver';
 import logger from './logger';
 import config from '../config';
 
-const typeDefs = gql(importSchema('server/graphql/index.graphql'));
+const typeDefs = gql(importSchema(path.join('..', 'graphql', 'index.graphql')));
 
 // Services
 const userService = new UserService();
