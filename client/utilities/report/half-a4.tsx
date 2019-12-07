@@ -100,10 +100,9 @@ export const HalfA4Report = (props: {
                 <div>數量</div>
                 {order.orderItem.map(item => (
                   <div key={item.id}>
-                    {item.quantity}
-                    {item.product.unit === '斤' && (
-                      <span> ({cattyDisplay(item.quantity)})</span>
-                    )}
+                    {item.product.unit !== '斤'
+                      ? item.quantity
+                      : cattyDisplay(item.quantity)}
                   </div>
                 ))}
               </div>
