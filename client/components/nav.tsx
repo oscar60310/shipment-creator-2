@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Alignment,
-  Button,
   Classes,
   Navbar,
   NavbarDivider,
@@ -9,24 +8,26 @@ import {
   NavbarHeading,
   AnchorButton
 } from '@blueprintjs/core';
+import { useQuery } from '@apollo/react-hooks';
+import { GET_SYSTEM_INFO } from '../queries/info';
+import { systemInfo } from '../generated/systemInfo';
 
 export const Nav = () => {
+  const { data: config } = useQuery<systemInfo>(GET_SYSTEM_INFO);
+
+  const configLoaded = config && config.systemInfo;
   return (
     <Navbar>
       <NavbarGroup align={Alignment.LEFT}>
-        <NavbarHeading>CC</NavbarHeading>
+        <NavbarHeading>
+          {configLoaded && config.systemInfo.companyName}
+        </NavbarHeading>
         <NavbarDivider />
         <AnchorButton
           className={Classes.MINIMAL}
           icon="home"
           text="訂單列表"
           href="#"
-        />
-        <AnchorButton
-          className={Classes.MINIMAL}
-          icon="cog"
-          text="基本設定"
-          href="#/setting"
         />
         <AnchorButton
           className={Classes.MINIMAL}
