@@ -101,9 +101,10 @@ const OrderOperation = (props: { order: EditableOrderDetail }) => {
   const checkOrder = useOrderChange(() => {
     setIssue(validateOrder(order));
     setOrderUploaded(false);
+    orderEdited();
   });
   React.useEffect(() => checkOrder(order), [order]);
-  React.useEffect(() => orderEdited(), [orderUploaded]);
+  React.useEffect(() => orderEdited(), [orderUploaded, issues.length]);
 
   const { status, text } = getStatus({ issues, orderUploaded });
   const updateOrderItem = () => {
