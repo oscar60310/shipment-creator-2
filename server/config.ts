@@ -17,6 +17,7 @@ export interface IConfig {
   dbName: string;
   dbUser: string;
   dbPass: string;
+  dbHost: string;
 }
 
 let config: IConfig = {
@@ -26,7 +27,8 @@ let config: IConfig = {
   port: 3000,
   dbName: '',
   dbUser: '',
-  dbPass: ''
+  dbPass: '',
+  dbHost: 'localhost'
 };
 
 const configPath = path.join(configFolder, 'shipment-creator-2.yaml');
