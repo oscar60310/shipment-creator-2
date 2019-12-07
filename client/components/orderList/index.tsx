@@ -1,6 +1,6 @@
 import React from 'react';
-import MonthPicker, { TimeRange } from './monthPicker';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import MonthPicker, { TimeRange, monthList } from './monthPicker';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/react-hooks';
 import { GET_ORDER_LIST, CREATE_ORDER } from '../../queries/order';
 import { orderList, orderListVariables } from '../../generated/orderList';
 import OrderTable from './orderTable';
@@ -8,35 +8,35 @@ import { Button, Spinner } from '@blueprintjs/core';
 import CustomDialog from '../customDialog';
 import OrderCreator from '../order/orderCreator';
 import { createOrderVariables, createOrder } from '../../generated/createOrder';
-import { Redirect, useHistory } from 'react-router';
+import { useHistory } from 'react-router';
 
 const OrderList = () => {
-  const [
-    loadOrders,
-    { data: orderQuery, loading: ordersLoading }
-  ] = useLazyQuery<orderList, orderListVariables>(GET_ORDER_LIST);
+  const [timeRange, setTimeRange] = React.useState(monthList[0].value);
+  const { data: orderQuery, loading: ordersLoading } = useQuery<
+    orderList,
+    orderListVariables
+  >(GET_ORDER_LIST, {
+    variables: {
+      where: {
+        orderTime_gt: timeRange.gt,
+        orderTime_lt: timeRange.lt
+      }
+    },
+    fetchPolicy: 'no-cache'
+  });
+
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
   const [createData, setCreateData] = React.useState<createOrderVariables>(
     null
   );
   const [createError, setCreateError] = React.useState(null);
 
-  const onSelectMonth = (range: TimeRange) => {
-    loadOrders({
-      variables: {
-        where: {
-          orderTime_gt: range.gt,
-          orderTime_lt: range.lt
-        }
-      }
-    });
-  };
   const history = useHistory();
   const [createOrderRequest, { loading: createLoading }] = useMutation<
     createOrder,
     createOrderVariables
   >(CREATE_ORDER, {
-    onCompleted: data => {
+    onCompleted: async data => {
       history.push(`/order/${data.createOrder.id}`);
     },
     onError: error => setCreateError(error.message)
@@ -52,7 +52,7 @@ const OrderList = () => {
           flexDirection: 'row'
         }}
       >
-        <MonthPicker onSelect={onSelectMonth} />
+        <MonthPicker onSelect={setTimeRange} />
         <Button
           text="建立新訂單"
           icon="plus"

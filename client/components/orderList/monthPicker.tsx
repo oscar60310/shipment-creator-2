@@ -15,11 +15,11 @@ interface MonthOptions {
   value: TimeRange;
 }
 
-const list: MonthOptions[] = [];
+export const monthList: MonthOptions[] = [];
 
 for (let monthBefore = 0; monthBefore < MONTH_DISPLAY; monthBefore++) {
   const targetTime = dayjs().add(-1 * monthBefore, 'M');
-  list.push({
+  monthList.push({
     display: targetTime.format('YYYY 年 MM 月'),
     value: {
       gt: targetTime.startOf('M').toDate(),
@@ -48,11 +48,11 @@ export const renderMonthMenuItem = (
 };
 
 const MonthPicker = (props: { onSelect: (range: TimeRange) => void }) => {
-  const [targetMonth, setTargetMonth] = React.useState(list[0]);
+  const [targetMonth, setTargetMonth] = React.useState(monthList[0]);
   useEffect(() => props.onSelect(targetMonth.value), [targetMonth]);
   return (
     <MonthSelect
-      items={list}
+      items={monthList}
       itemRenderer={renderMonthMenuItem}
       onItemSelect={item => {
         setTargetMonth(item);

@@ -4,10 +4,11 @@ import dayjs from 'dayjs';
 
 export default class UserResolver {
   public createOne = async (_root, { data }, context: ApolloContext) => {
-    return await context.orderService.createOne({
+    const result = await context.orderService.createOne({
       ...data,
       modifyBy: context.user.id
     });
+    return context.orderService.findOne(result.id);
   };
 
   public findOne = async (_root, { id }, context: ApolloContext) => {
