@@ -5,7 +5,6 @@ import * as uuid from 'uuid';
 import {
   orderDetail,
   orderDetailVariables,
-  orderDetail_order,
   orderDetail_order_orderItem
 } from '../../generated/orderDetail';
 import { GET_ORDER_DETAIL } from '../../queries/order';
@@ -20,7 +19,7 @@ import ReadOnlyOrderItem from './readOnlyOrderItem';
 const Order = () => {
   let { id } = useParams();
   const [orderData, setOrderData] = useState<EditableOrderDetail>();
-  const { data, loading } = useQuery<orderDetail, orderDetailVariables>(
+  const { data } = useQuery<orderDetail, orderDetailVariables>(
     GET_ORDER_DETAIL,
     { variables: { id } }
   );
@@ -102,7 +101,6 @@ const Order = () => {
       </div>
     );
   };
-  const orderOperation = <div style={{ height: 50 }}></div>;
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <h2 className="bp3-heading">訂單資料</h2>

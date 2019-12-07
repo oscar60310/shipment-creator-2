@@ -30,7 +30,10 @@ const OrderTable = (props: { orders: orderList_orders[] }) => {
   if (redirect) return <Redirect to={`/order/${redirect}`} />;
 
   return (
-    <table className="bp3-html-table bp3-interactive" style={{ width: '100%' }}>
+    <table
+      className="bp3-html-table bp3-interactive bp3-html-table-striped"
+      style={{ width: '100%' }}
+    >
       <thead>
         <tr>
           <th>編號</th>

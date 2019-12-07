@@ -19,6 +19,7 @@ const OrderList = () => {
   const [createData, setCreateData] = React.useState<createOrderVariables>(
     null
   );
+  const [createError, setCreateError] = React.useState(null);
   const [redirectToOrder, setRedirectToOrder] = React.useState<string>(null);
 
   const onSelectMonth = (range: TimeRange) => {
@@ -36,7 +37,8 @@ const OrderList = () => {
     createOrder,
     createOrderVariables
   >(CREATE_ORDER, {
-    onCompleted: data => setRedirectToOrder(data.createOrder.id)
+    onCompleted: data => setRedirectToOrder(data.createOrder.id),
+    onError: error => setCreateError(error.message)
   });
   if (redirectToOrder) {
     return <Redirect to={`/order/${redirectToOrder}`} />;
@@ -74,7 +76,7 @@ const OrderList = () => {
             建立
           </Button>
         }
-        content={<OrderCreator onSuccess={setCreateData} />}
+        content={<OrderCreator onSuccess={setCreateData} error={createError} />}
         title="建立新訂單"
       />
     </>

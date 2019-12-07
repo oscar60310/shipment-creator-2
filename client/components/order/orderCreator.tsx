@@ -1,5 +1,11 @@
 import React from 'react';
-import { Spinner, MenuItem, Button, FormGroup } from '@blueprintjs/core';
+import {
+  Spinner,
+  MenuItem,
+  Button,
+  FormGroup,
+  Callout
+} from '@blueprintjs/core';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { customers, customers_customers } from '../../generated/customers';
 import { GET_CUSTOMERS } from '../../queries/customer';
@@ -30,8 +36,9 @@ export const renderMonthMenuItem = (
 
 const OrderCreator = (props: {
   onSuccess?: (data: createOrderVariables) => void;
+  error?: any;
 }) => {
-  const { onSuccess } = props;
+  const { onSuccess, error } = props;
   const [customerSelected, setCustomerSelected] = React.useState<
     customers_customers
   >(null);
@@ -84,6 +91,11 @@ const OrderCreator = (props: {
           value={orderTime}
         />
       </FormGroup>
+      {error && (
+        <Callout intent="danger" title="建立訂單失敗">
+          error
+        </Callout>
+      )}
     </>
   );
 };
