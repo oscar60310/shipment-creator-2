@@ -5,6 +5,7 @@ import { products, products_products } from '../../generated/products';
 import { GET_PRODUCTS } from '../../queries/product';
 import { Select } from '@blueprintjs/select';
 import { MenuItem, Button, Spinner, NumericInput } from '@blueprintjs/core';
+import QuantityInput from '../../shared/quantityInput';
 
 const ProductSelect = Select.ofType<products_products>();
 const verticalCenter = {
@@ -76,8 +77,7 @@ const OrderItem = (props: {
         />
       </td>
       <td>
-        <NumericInput
-          fill
+        <QuantityInput
           value={data.quantity}
           onValueChange={value => {
             onUpdate({
@@ -85,6 +85,7 @@ const OrderItem = (props: {
               quantity: value
             });
           }}
+          unit={data.product ? data.product.unit : ''}
         />
       </td>
       <td style={verticalCenter}>
