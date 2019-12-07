@@ -5,10 +5,10 @@
 import { OrderStatus } from "./globalTypes";
 
 // ====================================================
-// GraphQL query operation: orderDetail
+// GraphQL fragment: OrderDetail
 // ====================================================
 
-export interface orderDetail_order_customer {
+export interface OrderDetail_customer {
   __typename: "Customer";
   id: string;
   name: string;
@@ -16,39 +16,31 @@ export interface orderDetail_order_customer {
   displayId: number;
 }
 
-export interface orderDetail_order_orderItem_product {
+export interface OrderDetail_orderItem_product {
   __typename: "Product";
   id: string;
   name: string;
   unit: string | null;
 }
 
-export interface orderDetail_order_orderItem {
+export interface OrderDetail_orderItem {
   __typename: "OrderItem";
   id: string;
   price: number;
   quantity: number;
-  product: orderDetail_order_orderItem_product | null;
+  product: OrderDetail_orderItem_product | null;
 }
 
-export interface orderDetail_order {
+export interface OrderDetail {
   __typename: "Order";
   id: string;
   displayId: number;
-  customer: orderDetail_order_customer;
+  customer: OrderDetail_customer;
   updatedAt: any;
   createdAt: any;
   orderTime: any;
   status: OrderStatus;
   remark: string | null;
-  orderItem: orderDetail_order_orderItem[];
+  orderItem: OrderDetail_orderItem[];
   orderNumber: string | null;
-}
-
-export interface orderDetail {
-  order: orderDetail_order;
-}
-
-export interface orderDetailVariables {
-  id: string;
 }
