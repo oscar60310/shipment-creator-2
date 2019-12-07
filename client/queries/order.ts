@@ -61,3 +61,11 @@ export const UPDATE_ORDER = gql`
   }
   ${ORDER_DETAIL}
 `;
+
+export const CREATE_ORDER = gql`
+  mutation createOrder($data: OrderCreateInput!) {
+    createOrder(data: $data) {
+      id
+    }
+  }
+`;

@@ -30,6 +30,16 @@ export interface CustomerUpdateInput {
   enable?: boolean | null;
 }
 
+/**
+ * Input
+ */
+export interface OrderCreateInput {
+  customerId: string;
+  orderTime: any;
+  remark?: string | null;
+  orderItem?: OrderItemInput[] | null;
+}
+
 export interface OrderItemInput {
   price: number;
   quantity: number;
