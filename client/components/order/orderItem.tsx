@@ -3,13 +3,31 @@ import { useQuery } from '@apollo/react-hooks';
 import { orderDetail_order_orderItem } from '../../generated/orderDetail';
 import { products, products_products } from '../../generated/products';
 import { GET_PRODUCTS } from '../../queries/product';
-import { Select } from '@blueprintjs/select';
+import { Select, ItemPredicate } from '@blueprintjs/select';
 import { MenuItem, Button, Spinner, NumericInput } from '@blueprintjs/core';
 import QuantityInput from '../../shared/quantityInput';
 
 const ProductSelect = Select.ofType<products_products>();
 const verticalCenter = {
   verticalAlign: 'middle'
+};
+
+export const filterItem: ItemPredicate<products_products> = (
+  query,
+  item,
+  _index,
+  exactMatch
+) => {
+  const normalizedTitle = item.name.toLowerCase();
+  const normalizedQuery = query.toLowerCase();
+
+  if (exactMatch) {
+    return normalizedTitle === normalizedQuery;
+  } else {
+    return (
+      `${item.displayId}. ${normalizedTitle}`.indexOf(normalizedQuery) >= 0
+    );
+  }
 };
 
 export const renderProductMenuItem = (
@@ -25,7 +43,7 @@ export const renderProductMenuItem = (
       disabled={modifiers.disabled}
       key={item.id}
       onClick={handleClick}
-      text={item.name}
+      text={`[${item.displayId}] ${item.name}`}
     />
   );
 };
@@ -54,7 +72,7 @@ const OrderItem = (props: {
           onItemSelect={item => {
             onUpdate({ ...data, product: item, price: item.price });
           }}
-          filterable={false}
+          itemPredicate={filterItem}
         >
           <Button
             text={data.product ? data.product.name : '請選擇產品'}

@@ -1,0 +1,5 @@
+type SystemInfo {
+  companyName: String!
+  companyAddress: String!
+  companyPhone: String!
+}

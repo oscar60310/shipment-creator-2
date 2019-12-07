@@ -15,7 +15,9 @@ import UserResolver from '../resolvers/userResolver';
 import CustomerResolver from '../resolvers/customerResolver';
 import ProductResolver from '../resolvers/productResolver';
 import OrderResolver from '../resolvers/orderResolver';
+import SystemInfoResolver from '../resolvers/systemInfoResolver';
 import logger from './logger';
+import config from '../config';
 
 const typeDefs = gql(importSchema('server/graphql/index.graphql'));
 
@@ -30,6 +32,7 @@ const userResolver = new UserResolver();
 const customerResolver = new CustomerResolver();
 const productResolver = new ProductResolver();
 const orderResolver = new OrderResolver();
+const systemInfoResolver = new SystemInfoResolver();
 
 const authenticator = next => (root, args, context, info) => {
   if (!context.user) {
@@ -61,7 +64,8 @@ const resolvers = withAuthenticator({
     product: productResolver.findOne,
     products: productResolver.findAll,
     order: orderResolver.findOne,
-    orders: orderResolver.findAll
+    orders: orderResolver.findAll,
+    systemInfo: systemInfoResolver.getConfig
   },
   Mutation: {
     createUser: userResolver.createOne,
@@ -103,7 +107,8 @@ export const server = new ApolloServer({
       userService,
       customerService,
       productService,
-      orderService
+      orderService,
+      config
     } as ApolloContext;
   }
 });

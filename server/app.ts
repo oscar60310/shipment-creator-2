@@ -1,8 +1,9 @@
 import { startServer } from './utils/apollo-server';
 import logger from './utils/logger';
 import { connect } from './utils/db';
+import config from './config';
 
-const port = process.env.PORT || 3000;
+const port = config.port;
 logger.info(`Env = ${process.env.NODE_ENV}`);
 
 connect()
