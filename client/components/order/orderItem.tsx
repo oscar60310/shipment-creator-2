@@ -87,6 +87,7 @@ const OrderItem = (props: {
           fill
           value={data.price}
           onValueChange={value => {
+            if (isNaN(value)) return;
             onUpdate({
               ...data,
               price: value
