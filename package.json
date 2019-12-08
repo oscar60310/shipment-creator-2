@@ -6,7 +6,7 @@
   "author": "Ivan Tsai <oscar60310@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "NODE_ENV=development ts-node ./server/app.ts",
+    "start": "cross-env NODE_ENV=production node ./server/app.js",
     "build:client": "cross-env NODE_ENV=production webpack --mode=production",
     "build:server": "cross-env NODE_ENV=production tsc",
     "lint": "eslint src --ext .tsx,.ts",
