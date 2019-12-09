@@ -23,7 +23,7 @@ export const sequelize = new Sequelize({
     idle: 10000
   },
   models,
-  logging: process.env.NODE_ENV === 'development'
+  logging: process.env.NODE_ENV === 'development' ? console.log : false
 });
 
 export const connect = async () => {
