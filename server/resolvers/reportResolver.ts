@@ -8,7 +8,10 @@ export default class ReportResolver {
     { where: { month, customerId } },
     context: ApolloContext
   ) => {
-    return await context.reportService.monthlyDetail(dayjs(month), customerId);
+    return await context.reportService.monthlyDetail(
+      dayjs(month).add(1, 'day'),
+      customerId
+    );
   };
 
   public byProductPrice = async (
@@ -17,7 +20,7 @@ export default class ReportResolver {
     context: ApolloContext
   ) => {
     return await context.reportService.byProductAndPrice(
-      dayjs(month),
+      dayjs(month).add(1, 'day'),
       customerId
     );
   };
@@ -27,6 +30,9 @@ export default class ReportResolver {
     { where: { month, customerId } },
     context: ApolloContext
   ) => {
-    return await context.reportService.byProduct(dayjs(month), customerId);
+    return await context.reportService.byProduct(
+      dayjs(month).add(1, 'day'),
+      customerId
+    );
   };
 }

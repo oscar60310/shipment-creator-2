@@ -1,7 +1,10 @@
 import React from 'react';
 import { Divider, FormGroup, RadioGroup, Radio } from '@blueprintjs/core';
-import MonthPicker from '../../utilities/monthPicker';
+import MonthPicker, { TimeRange } from '../../utilities/monthPicker';
 import CustomerSelector from '../../utilities/customerSelect';
+import DetailReportGenerator from './detailReport';
+import { customers_customers } from '../../generated/customers';
+import { ReportGeneratorProps } from './reportModel';
 
 enum ReportType {
   DETAIL = 'DETAIL',
@@ -11,16 +14,29 @@ enum ReportType {
 
 const Reports = () => {
   const [reportType, setReportType] = React.useState(ReportType.DETAIL);
+  const [timeRange, setTimeRange] = React.useState<TimeRange>(null);
+  const [customer, setCustomer] = React.useState<customers_customers>(null);
+
+  const getGenerator = () => {
+    const info: ReportGeneratorProps = {
+      month: timeRange && timeRange.gt,
+      customer
+    };
+    switch (reportType) {
+      case ReportType.DETAIL:
+        return <DetailReportGenerator {...info} />;
+    }
+  };
 
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <h2 className="bp3-heading">報表</h2>
       <div style={{ display: 'flex' }}>
         <FormGroup label="客戶" style={{ marginRight: 10 }}>
-          <CustomerSelector />
+          <CustomerSelector onSelect={setCustomer} />
         </FormGroup>
         <FormGroup label="月份" style={{ marginRight: 10 }}>
-          <MonthPicker onSelect={console.log} />
+          <MonthPicker onSelect={setTimeRange} />
         </FormGroup>
         <RadioGroup
           label="報表種類"
@@ -34,6 +50,7 @@ const Reports = () => {
         </RadioGroup>
       </div>
       <Divider />
+      {getGenerator()}
     </div>
   );
 };
