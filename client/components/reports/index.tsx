@@ -35,7 +35,14 @@ const Reports = () => {
   };
 
   return (
-    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <div
+      style={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'auto'
+      }}
+    >
       <h2 className="bp3-heading">報表</h2>
       <div style={{ display: 'flex' }}>
         <FormGroup label="客戶" style={{ marginRight: 10 }}>
