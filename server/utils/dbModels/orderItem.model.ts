@@ -25,4 +25,6 @@ export default class OrderItem extends Model<OrderItem> {
   orderId!: string;
   @BelongsTo(() => Product, 'productId')
   product!: Product;
+  @BelongsTo(() => Order, 'orderId')
+  order!: Order;
 }

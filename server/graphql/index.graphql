@@ -3,6 +3,7 @@
 # import * from 'product.graphql'
 # import * from 'order.graphql'
 # import * from 'systemInfo.graphql'
+# import * from 'report.graphql'
 
 scalar DateTime
 
@@ -19,6 +20,8 @@ type Query {
   order(id: String!): Order!
   orders(where: OrderSearchInput!): [Order!]!
   systemInfo: SystemInfo!
+  monthlyDetailReport(where: ReportWhere!): [MonthlyDetailReport!]!
+  byProductPriceReport(where: ReportWhere!): [ByProductPriceReport!]!
 }
 
 type Mutation {
