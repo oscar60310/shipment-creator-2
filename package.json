@@ -71,9 +71,14 @@
     "webpack-dev-server": "^3.8.0"
   },
   "dependencies": {
-    "file-loader": "^5.0.2",
     "apollo-boost": "^0.4.4",
     "apollo-cache-inmemory": "^1.6.3",
+    "apollo-server": "^2.9.12",
+    "apollo-server-koa": "^2.9.12",
+    "cross-env": "^5.2.1",
+    "css-loader": "^3.2.0",
+    "dayjs": "^1.8.17",
+    "file-loader": "^5.0.2",
     "graphql-import": "^0.7.1",
     "graphql-iso-date": "^3.6.1",
     "js-yaml": "^3.13.1",
@@ -84,15 +89,11 @@
     "lodash": "^4.17.15",
     "pg": "^7.14.0",
     "pg-hstore": "^2.3.3",
+    "react-to-print": "^2.5.0",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^5.21.2",
     "sequelize-typescript": "^1.0.0",
     "uuid": "^3.3.3",
-    "winston": "^3.2.1",
-    "apollo-server": "^2.9.12",
-    "apollo-server-koa": "^2.9.12",
-    "cross-env": "^5.2.1",
-    "css-loader": "^3.2.0",
-    "dayjs": "^1.8.17"
+    "winston": "^3.2.1"
   }
 }

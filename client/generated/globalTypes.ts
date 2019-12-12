@@ -76,6 +76,11 @@ export interface ProductUpdateInput {
   enable?: boolean | null;
 }
 
+export interface ReportWhere {
+  month: any;
+  customerId: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

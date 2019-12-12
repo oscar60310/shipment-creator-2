@@ -9,6 +9,7 @@ import ProductList from './productList';
 import CustomerList from './customerList';
 import OrderList from './orderList';
 import Order from './order';
+import Reports from './reports';
 
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql',
@@ -61,6 +62,9 @@ const AppComponent = () => {
                 </Route>
                 <Route path="/customers">
                   <CustomerList />
+                </Route>
+                <Route path="/reports">
+                  <Reports />
                 </Route>
                 <Route path="/order/:id">
                   <Order />
