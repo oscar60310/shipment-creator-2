@@ -9,6 +9,8 @@ import {
 } from '../../generated/productReport';
 import { GET_PRODUCT_REPORT } from '../../queries/report';
 import { cattyDisplay } from '../../utilities/unitConvertor';
+import ReactToPrint from 'react-to-print';
+import WithCustomerInfo from './withCustomerInfo';
 
 const ProductReportGenerator = (props: ReportGeneratorProps) => {
   const { customer, month } = props;
@@ -16,6 +18,16 @@ const ProductReportGenerator = (props: ReportGeneratorProps) => {
     productReport,
     productReportVariables
   >(GET_PRODUCT_REPORT, { fetchPolicy: 'network-only' });
+
+  const reportRef = React.useRef();
+  const getTotal = () => {
+    if (!data || !data.byProductReport) return 0;
+    return data.byProductReport.reduce(
+      (subTotal, row) => subTotal + row.subTotal,
+      0
+    );
+  };
+
   return (
     <div>
       <Button
@@ -33,11 +45,24 @@ const ProductReportGenerator = (props: ReportGeneratorProps) => {
             }
           });
         }}
+        style={{ marginRight: 10 }}
       >
         建立報表
       </Button>
+      <ReactToPrint
+        trigger={() => (
+          <Button disabled={!data || !data.byProductReport} intent="success">
+            列印
+          </Button>
+        )}
+        content={() => reportRef.current}
+      />
       {data && data.byProductReport && (
-        <ProductReport data={data.byProductReport} />
+        <div ref={reportRef}>
+          <WithCustomerInfo {...props} total={getTotal()}>
+            <ProductReport data={data.byProductReport} />
+          </WithCustomerInfo>
+        </div>
       )}
     </div>
   );
