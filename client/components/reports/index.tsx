@@ -5,6 +5,8 @@ import CustomerSelector from '../../utilities/customerSelect';
 import DetailReportGenerator from './detailReport';
 import { customers_customers } from '../../generated/customers';
 import { ReportGeneratorProps } from './reportModel';
+import ProductPriceReportGenerator from './productPriceReport';
+import ProductReportGenerator from './productReport';
 
 enum ReportType {
   DETAIL = 'DETAIL',
@@ -25,6 +27,10 @@ const Reports = () => {
     switch (reportType) {
       case ReportType.DETAIL:
         return <DetailReportGenerator {...info} />;
+      case ReportType.PRODUCT_AND_PRICE:
+        return <ProductPriceReportGenerator {...info} />;
+      case ReportType.PRODUCT:
+        return <ProductReportGenerator {...info} />;
     }
   };
 

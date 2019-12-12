@@ -13,3 +13,27 @@ export const GET_DETAIL_REPORT = gql`
     }
   }
 `;
+
+export const GET_PRODUCT_PRICE_REPORT = gql`
+  query productPriceReport($where: ReportWhere!) {
+    byProductPriceReport(where: $where) {
+      productId
+      productName
+      price
+      unit
+      quantity
+    }
+  }
+`;
+
+export const GET_PRODUCT_REPORT = gql`
+  query productReport($where: ReportWhere!) {
+    byProductReport(where: $where) {
+      productId
+      productName
+      subTotal
+      unit
+      quantity
+    }
+  }
+`;
