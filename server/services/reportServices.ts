@@ -11,7 +11,8 @@ export default class ReportService {
           [Op.gt]: month.startOf('month').toDate(),
           [Op.lt]: month.endOf('month').toDate()
         }
-      }
+      },
+      order: ['orderTime']
     });
     return result;
   };
@@ -27,7 +28,8 @@ export default class ReportService {
           [Op.lt]: month.endOf('month').toDate()
         }
       },
-      group
+      group,
+      order: ['productId']
     });
     return result;
   };
@@ -47,7 +49,8 @@ export default class ReportService {
           [Op.lt]: month.endOf('month').toDate()
         }
       },
-      group
+      group,
+      order: ['productId']
     });
     return result;
   };
