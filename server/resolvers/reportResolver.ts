@@ -21,4 +21,12 @@ export default class ReportResolver {
       customerId
     );
   };
+
+  public byProduct = async (
+    _root,
+    { where: { month, customerId } },
+    context: ApolloContext
+  ) => {
+    return await context.reportService.byProduct(dayjs(month), customerId);
+  };
 }

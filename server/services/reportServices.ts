@@ -31,4 +31,24 @@ export default class ReportService {
     });
     return result;
   };
+
+  public byProduct = async (month: dayjs.Dayjs, customerId: string) => {
+    const group = ['customerId', 'productId', 'productName', 'unit'];
+    const result = await OrderItemDetail.findAll({
+      attributes: [
+        ...group,
+        [fn('SUM', col('quantity')), 'quantity'],
+        [fn('SUM', col('subTotal')), 'subTotal']
+      ],
+      where: {
+        customerId: customerId,
+        orderTime: {
+          [Op.gt]: month.startOf('month').toDate(),
+          [Op.lt]: month.endOf('month').toDate()
+        }
+      },
+      group
+    });
+    return result;
+  };
 }

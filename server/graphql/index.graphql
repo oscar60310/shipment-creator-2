@@ -22,6 +22,7 @@ type Query {
   systemInfo: SystemInfo!
   monthlyDetailReport(where: ReportWhere!): [MonthlyDetailReport!]!
   byProductPriceReport(where: ReportWhere!): [ByProductPriceReport!]!
+  byProductReport(where: ReportWhere!): [ByProductReport!]!
 }
 
 type Mutation {

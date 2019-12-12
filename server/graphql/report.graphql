@@ -17,6 +17,14 @@ type ByProductPriceReport {
   quantity: Float!
 }
 
+type ByProductReport {
+  productId: String!
+  productName: String!
+  unit: String!
+  quantity: Float!
+  subTotal: Float!
+}
+
 input ReportWhere {
   month: DateTime!
   customerId: String!

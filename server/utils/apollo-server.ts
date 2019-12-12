@@ -75,7 +75,8 @@ const resolvers = withAuthenticator({
     orders: orderResolver.findAll,
     systemInfo: systemInfoResolver.getConfig,
     monthlyDetailReport: reportResolver.monthlyDetail,
-    byProductPriceReport: reportResolver.byProductPrice
+    byProductPriceReport: reportResolver.byProductPrice,
+    byProductReport: reportResolver.byProduct
   },
   Mutation: {
     createUser: userResolver.createOne,
