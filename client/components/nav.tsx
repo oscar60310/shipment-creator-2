@@ -41,6 +41,12 @@ export const Nav = () => {
           text="產品設定"
           href="#/products"
         />
+        <AnchorButton
+          className={Classes.MINIMAL}
+          icon="annotation"
+          text="報表"
+          href="#/reports"
+        />
       </NavbarGroup>
     </Navbar>
   );
