@@ -10,6 +10,8 @@ import {
 } from '../../generated/detailReport';
 import { GET_DETAIL_REPORT } from '../../queries/report';
 import { cattyDisplay } from '../../utilities/unitConvertor';
+import ReactToPrint from 'react-to-print';
+import WithCustomerInfo from './withCustomerInfo';
 
 const DetailReportGenerator = (props: ReportGeneratorProps) => {
   const { customer, month } = props;
@@ -17,6 +19,14 @@ const DetailReportGenerator = (props: ReportGeneratorProps) => {
     detailReport,
     detailReportVariables
   >(GET_DETAIL_REPORT, { fetchPolicy: 'network-only' });
+  const reportRef = React.useRef();
+  const getTotal = () => {
+    if (!data || !data.monthlyDetailReport) return 0;
+    return data.monthlyDetailReport.reduce(
+      (subTotal, row) => subTotal + row.price * row.quantity,
+      0
+    );
+  };
   return (
     <div>
       <Button
@@ -34,11 +44,28 @@ const DetailReportGenerator = (props: ReportGeneratorProps) => {
             }
           });
         }}
+        style={{ marginRight: 10 }}
       >
         建立報表
       </Button>
+      <ReactToPrint
+        trigger={() => (
+          <Button
+            disabled={!data || !data.monthlyDetailReport}
+            intent="success"
+          >
+            列印
+          </Button>
+        )}
+        content={() => reportRef.current}
+      />
+
       {data && data.monthlyDetailReport && (
-        <DetailReport data={data.monthlyDetailReport} />
+        <div ref={reportRef}>
+          <WithCustomerInfo {...props} total={getTotal()}>
+            <DetailReport data={data.monthlyDetailReport} />
+          </WithCustomerInfo>
+        </div>
       )}
     </div>
   );
