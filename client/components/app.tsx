@@ -9,6 +9,7 @@ import ProductList from './productList';
 import CustomerList from './customerList';
 import OrderList from './orderList';
 import Order from './order';
+import Reports from './reports';
 
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql',
@@ -20,7 +21,8 @@ const LoadResource = (props: { children: any }) => {
   React.useEffect(() => {
     const jobs = [
       import('@blueprintjs/core/lib/css/blueprint.css'),
-      import('@blueprintjs/datetime/lib/css/blueprint-datetime.css')
+      import('@blueprintjs/datetime/lib/css/blueprint-datetime.css'),
+      import('@blueprintjs/select/lib/css/blueprint-select.css')
     ];
     Promise.all(jobs).then(() => setFinish(true));
   }, []);
@@ -60,6 +62,9 @@ const AppComponent = () => {
                 </Route>
                 <Route path="/customers">
                   <CustomerList />
+                </Route>
+                <Route path="/reports">
+                  <Reports />
                 </Route>
                 <Route path="/order/:id">
                   <Order />

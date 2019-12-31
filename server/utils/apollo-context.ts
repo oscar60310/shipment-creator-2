@@ -3,6 +3,7 @@ import { TokenContent } from './auth';
 import CustomerService from 'server/services/customerService';
 import ProductService from 'server/services/productService';
 import OrderService from 'server/services/orderService';
+import ReportService from 'server/services/reportServices';
 import { IConfig } from 'server/config';
 
 export interface ApolloContext {
@@ -12,4 +13,5 @@ export interface ApolloContext {
   customerService: CustomerService;
   productService: ProductService;
   orderService: OrderService;
+  reportService: ReportService;
 }

@@ -6,8 +6,9 @@ import Product from './dbModels/product.model';
 import Order from './dbModels/order.model';
 import OrderItem from './dbModels/orderItem.model';
 import config from '../config';
+import OrderItemDetail from './dbModels/orderItemDetail.model';
 
-const models = [User, Customer, Product, Order, OrderItem];
+const models = [User, Customer, Product, Order, OrderItem, OrderItemDetail];
 
 export const sequelize = new Sequelize({
   host: config.dbHost || 'localhost',
@@ -23,7 +24,7 @@ export const sequelize = new Sequelize({
     idle: 10000
   },
   models,
-  logging: process.env.NODE_ENV === 'development'
+  logging: process.env.NODE_ENV === 'development' ? console.log : false
 });
 
 export const connect = async () => {

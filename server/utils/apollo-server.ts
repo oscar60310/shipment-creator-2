@@ -11,12 +11,15 @@ import { UserService } from '../services/userService';
 import CustomerService from '../services/customerService';
 import ProductService from '../services/productService';
 import OrderService from '../services/orderService';
+import ReportService from '../services/reportServices';
 
 import UserResolver from '../resolvers/userResolver';
 import CustomerResolver from '../resolvers/customerResolver';
 import ProductResolver from '../resolvers/productResolver';
 import OrderResolver from '../resolvers/orderResolver';
 import SystemInfoResolver from '../resolvers/systemInfoResolver';
+import ReportResolver from '../resolvers/reportResolver';
+
 import logger from './logger';
 import config from '../config';
 
@@ -29,6 +32,7 @@ const userService = new UserService();
 const customerService = new CustomerService();
 const productService = new ProductService();
 const orderService = new OrderService();
+const reportService = new ReportService();
 
 // Resolvers
 const userResolver = new UserResolver();
@@ -36,6 +40,7 @@ const customerResolver = new CustomerResolver();
 const productResolver = new ProductResolver();
 const orderResolver = new OrderResolver();
 const systemInfoResolver = new SystemInfoResolver();
+const reportResolver = new ReportResolver();
 
 const authenticator = next => (root, args, context, info) => {
   if (!context.user) {
@@ -68,7 +73,10 @@ const resolvers = withAuthenticator({
     products: productResolver.findAll,
     order: orderResolver.findOne,
     orders: orderResolver.findAll,
-    systemInfo: systemInfoResolver.getConfig
+    systemInfo: systemInfoResolver.getConfig,
+    monthlyDetailReport: reportResolver.monthlyDetail,
+    byProductPriceReport: reportResolver.byProductPrice,
+    byProductReport: reportResolver.byProduct
   },
   Mutation: {
     createUser: userResolver.createOne,
@@ -116,6 +124,7 @@ export const server = new ApolloServer({
       customerService,
       productService,
       orderService,
+      reportService,
       config
     } as ApolloContext;
   }
