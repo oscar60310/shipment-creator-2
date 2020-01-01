@@ -34,13 +34,19 @@ jobs:
       - run:
           name: build
           command: sh build.sh
+      - persist_to_workspace:
+          root: /tmp/build
+          path:
+            - build
   release:
     docker:
       - image: node:10.16.3-alpine
     steps:
+      - attach_workspace:
+          at: /tmp
       - run:
           name: test
-          command: ls build
+          command: ls /tmp
 
 workflows:
   version: 2
