@@ -9,7 +9,7 @@
     "start": "cross-env NODE_ENV=production node ./server/app.js",
     "build:client": "cross-env NODE_ENV=production webpack --mode=production",
     "build:server": "cross-env NODE_ENV=production tsc",
-    "lint": "eslint src --ext .tsx,.ts",
+    "lint": "eslint client/**/*.ts client/**/*.tsx server/**/*.ts",
     "test": "jest",
     "deploy": "gh-pages -d ./build",
     "apollo:generate": "apollo codegen:generate --includes=client/queries/*.ts --endpoint http://localhost:3000/graphql --target typescript --tagName=gql --outputFlat client/generated",

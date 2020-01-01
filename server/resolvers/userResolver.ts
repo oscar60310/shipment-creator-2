@@ -1,4 +1,3 @@
-import { UserService } from 'server/services/userService';
 import { ApolloContext } from 'server/utils/apollo-context';
 
 import { getToken } from '../utils/auth';

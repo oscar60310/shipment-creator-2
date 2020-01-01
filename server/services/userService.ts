@@ -10,8 +10,6 @@ export interface UserCreatOption {
 }
 
 export class UserService {
-  constructor() {}
-
   public login = async (username: string, password: string) => {
     const user = await User.findOne({
       where: {
