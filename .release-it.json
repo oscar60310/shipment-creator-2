@@ -1,0 +1,10 @@
+{
+  "github": {
+    "release": true,
+    "assets": ["dist/*.zip"]
+  },
+  "npm": false,
+  "git": {
+    "requireUpstream": false
+  }
+}
