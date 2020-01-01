@@ -30,7 +30,7 @@ const ProductCard = (props: {
 }) => {
   const [data, setData] = useState(props.data);
   useEffect(() => setData(props.data), [props.data]);
-  const [updateProduct, { loading: updateLoading }] = useMutation<
+  const [update, { loading: updateLoading }] = useMutation<
     updateProduct,
     updateProductVariables
   >(UPDATE_PRODUCT);
@@ -87,7 +87,7 @@ const ProductCard = (props: {
           loading={updateLoading}
           intent="primary"
           onClick={() => {
-            updateProduct({
+            update({
               variables: {
                 id: data.id,
                 data: pick(data, 'price', 'name', 'unit')
@@ -112,10 +112,16 @@ const ProductCard = (props: {
 };
 const ProductList = () => {
   const { data, client } = useQuery<products>(GET_PRODUCTS);
-  const [
-    createProduct,
-    { loading: createLoading, error: createError }
-  ] = useMutation<createProduct>(CREATE_PRODUCT, {
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [creationData, setCreationData] = useState({
+    name: '',
+    price: 0,
+    unit: ''
+  });
+
+  const [create, { loading: createLoading, error: createError }] = useMutation<
+    createProduct
+  >(CREATE_PRODUCT, {
     onCompleted: ({ createProduct }) => {
       client.writeData({
         data: { products: [...data.products, createProduct] }
@@ -124,12 +130,7 @@ const ProductList = () => {
       setCreationData({ name: '', price: 0, unit: '' });
     }
   });
-  const [createDialogOpen, setCreateDialogOpen] = useState(false);
-  const [creationData, setCreationData] = useState({
-    name: '',
-    price: 0,
-    unit: ''
-  });
+
   const removeProduct = id =>
     client.writeData({
       data: { products: data.products.filter(product => product.id !== id) }
@@ -207,7 +208,7 @@ const ProductList = () => {
             minimal
             loading={createLoading}
             onClick={() => {
-              createProduct({ variables: { data: creationData } });
+              create({ variables: { data: creationData } });
             }}
           >
             建立
