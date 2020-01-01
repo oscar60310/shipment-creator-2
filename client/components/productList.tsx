@@ -179,7 +179,7 @@ const ProductList = () => {
     </>
   );
   return (
-    <div>
+    <div style={{ overflow: 'auto', height: '100%' }}>
       <h2 className="bp3-heading">商品列表</h2>
       <Button icon="plus" onClick={() => setCreateDialogOpen(true)}>
         新增
