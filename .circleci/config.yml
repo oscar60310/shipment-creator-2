@@ -22,7 +22,7 @@ workflows:
   version: 2
   test_and_release:
     jobs:
-      - test:
+      - lint:
           filters:
             branches:
               only:
