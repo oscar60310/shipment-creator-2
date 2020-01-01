@@ -37,7 +37,7 @@ jobs:
       - persist_to_workspace:
           root: ./build
           paths:
-            - /*
+            - ./*
   release:
     docker:
       - image: node:10.16.3-alpine
