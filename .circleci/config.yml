@@ -17,6 +17,30 @@ jobs:
       - run: # run lint
           name: lint
           command: npm run lint
+  build:
+    docker:
+      - image: node:10.16.3-alpine
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: npm install
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: build
+          command: sh build.sh
+  release:
+    docker:
+      - image: node:10.16.3-alpine
+    steps:
+      - run:
+          name: test
+          command: ls build
 
 workflows:
   version: 2
@@ -28,3 +52,18 @@ workflows:
               only:
                 - master
                 - develop
+                - feature/auto-release
+      - build:
+          requires:
+            - lint
+          filters:
+            branches:
+              only:
+                - feature/auto-release
+      - release:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - feature/auto-release
