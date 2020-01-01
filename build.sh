@@ -3,3 +3,4 @@ cp package-lock.json ./build
 cp package.json ./build
 cp -r migrations/ ./build
 cp -r ./server/graphql ./build/server
+cp .release-it.json ./build

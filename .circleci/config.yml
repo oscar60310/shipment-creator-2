@@ -34,36 +34,48 @@ jobs:
       - run:
           name: build
           command: sh build.sh
+      - persist_to_workspace:
+          root: ./build
+          paths:
+            - ./*
   release:
     docker:
-      - image: node:10.16.3-alpine
+      - image: oscar60310/release-kit:1.0.1
     steps:
+      - checkout
+      - attach_workspace:
+          at: /root/project/build
       - run:
-          name: test
-          command: ls build
-
+          name: create folder
+          command: mkdir dist
+      - run:
+          name: bundle
+          command: zip dist/shipment-creator.zip build/*
+      - run:
+          name: set user
+          command: git config --global user.name $CIRCLE_USERNAME
+      - run:
+          name: set email
+          command: git config --global user.email $CIRCLE_USERNAME"@gmail.com"
+      - run:
+          name: release
+          command: npm run release
 workflows:
   version: 2
   test_and_release:
     jobs:
-      - lint:
-          filters:
-            branches:
-              only:
-                - master
-                - develop
-                - feature/auto-release
+      - lint
       - build:
           requires:
             - lint
           filters:
             branches:
               only:
-                - feature/auto-release
+                - master
       - release:
           requires:
             - build
           filters:
             branches:
               only:
-                - feature/auto-release
+                - master
