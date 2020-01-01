@@ -43,10 +43,10 @@ jobs:
       - image: node:10.16.3-alpine
     steps:
       - attach_workspace:
-          at: /tmp
+          at: /tmp/build
       - run:
           name: test
-          command: ls /tmp
+          command: ls /tmp/build
       - run:
           name: test2
           command: ls
