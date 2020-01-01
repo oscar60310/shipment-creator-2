@@ -37,7 +37,7 @@ jobs:
       - persist_to_workspace:
           root: ./build
           paths:
-            - *
+            - /*
   release:
     docker:
       - image: node:10.16.3-alpine
@@ -47,7 +47,9 @@ jobs:
       - run:
           name: test
           command: ls /tmp
-
+      - run:
+          name: test2
+          command: ls
 workflows:
   version: 2
   test_and_release:
