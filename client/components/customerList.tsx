@@ -30,7 +30,7 @@ const CustomerCard = (props: {
 }) => {
   const [data, setData] = useState(props.data);
   useEffect(() => setData(props.data), [props.data]);
-  const [updateCustomer, { loading: updateLoading }] = useMutation<
+  const [update, { loading: updateLoading }] = useMutation<
     updateCustomer,
     updateCustomerVariables
   >(UPDATE_CUSTOMER);
@@ -74,7 +74,7 @@ const CustomerCard = (props: {
           loading={updateLoading}
           intent="primary"
           onClick={() => {
-            updateCustomer({
+            update({
               variables: {
                 id: data.id,
                 data: pick(data, 'address', 'name')
@@ -99,10 +99,15 @@ const CustomerCard = (props: {
 };
 const CustomerList = () => {
   const { data, client } = useQuery<customers>(GET_CUSTOMERS);
-  const [
-    createCustomer,
-    { loading: createLoading, error: createError }
-  ] = useMutation<createCustomer>(CREATE_CUSTOMER, {
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [creationData, setCreationData] = useState({
+    name: '',
+    address: ''
+  });
+
+  const [create, { loading: createLoading, error: createError }] = useMutation<
+    createCustomer
+  >(CREATE_CUSTOMER, {
     onCompleted: ({ createCustomer }) => {
       client.writeData({
         data: { customers: [...data.customers, createCustomer] }
@@ -111,11 +116,7 @@ const CustomerList = () => {
       setCreationData({ name: '', address: '' });
     }
   });
-  const [createDialogOpen, setCreateDialogOpen] = useState(false);
-  const [creationData, setCreationData] = useState({
-    name: '',
-    address: ''
-  });
+
   const removeCustomer = id =>
     client.writeData({
       data: { customers: data.customers.filter(customer => customer.id !== id) }
@@ -180,7 +181,7 @@ const CustomerList = () => {
             minimal
             loading={createLoading}
             onClick={() => {
-              createCustomer({ variables: { data: creationData } });
+              create({ variables: { data: creationData } });
             }}
           >
             建立

@@ -1,6 +1,5 @@
 import React from 'react';
 import { ReportGeneratorProps } from './reportModel';
-import dayjs from 'dayjs';
 import { Button } from '@blueprintjs/core';
 import { useLazyQuery } from '@apollo/react-hooks';
 import {

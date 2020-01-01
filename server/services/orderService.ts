@@ -3,7 +3,6 @@ import Order, { OrderStatus } from '../utils/dbModels/order.model';
 import { Op } from 'sequelize';
 import Customer from '../utils/dbModels/customer.model';
 import OrderItem from '../utils/dbModels/orderItem.model';
-import User from '../utils/dbModels/user.model';
 import Product from '../utils/dbModels/product.model';
 import { sequelize } from '../utils/db';
 

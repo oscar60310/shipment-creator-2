@@ -1,6 +1,5 @@
 import { ApolloContext } from '../utils/apollo-context';
 import dayjs from 'dayjs';
-import OrderItem from '../utils/dbModels/orderItem.model';
 
 export default class ReportResolver {
   public monthlyDetail = async (

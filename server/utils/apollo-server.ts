@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { ApolloServer, gql, AuthenticationError } from 'apollo-server-koa';
 import { importSchema } from 'graphql-import';
 import Koa from 'koa';
 import * as path from 'path';
 import { ApolloContext } from './apollo-context';
-import { validateToken } from './auth';
 import { mapValues } from 'lodash';
 import { GraphQLDateTime } from 'graphql-iso-date';
 
@@ -98,7 +98,7 @@ const resolversWithScalar = { ...resolvers, DateTime: GraphQLDateTime };
 export const server = new ApolloServer({
   typeDefs,
   resolvers: resolversWithScalar,
-  context: ({ ctx }) => {
+  context: () => {
     // Remove auth validation in beta
     // const token = ctx.header.authorization || '';
     // let user;

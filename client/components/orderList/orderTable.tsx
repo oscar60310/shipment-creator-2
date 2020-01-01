@@ -3,7 +3,7 @@ import { orderList_orders } from '../../generated/orderList';
 import dayjs from 'dayjs';
 import { OrderStatus } from '../../generated/globalTypes';
 import { Tag } from '@blueprintjs/core';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const OrderTable = (props: { orders: orderList_orders[] }) => {
   const history = useHistory();

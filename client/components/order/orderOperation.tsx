@@ -76,7 +76,7 @@ const OrderOperation = (props: { order: EditableOrderDetail }) => {
     0
   );
   const [orderUploaded, setOrderUploaded] = React.useState(true);
-  const [updateOrder, { loading: updateLoading }] = useMutation<
+  const [update, { loading: updateLoading }] = useMutation<
     updateOrder,
     updateOrderVariables
   >(UPDATE_ORDER, {
@@ -87,6 +87,21 @@ const OrderOperation = (props: { order: EditableOrderDetail }) => {
     GET_SYSTEM_INFO
   );
   const [issues, setIssue] = React.useState<string[]>([]);
+
+  const updateOrderItem = () => {
+    update({
+      variables: {
+        id: order.id,
+        data: {
+          orderItem: order.orderItem.map(item => ({
+            price: item.price,
+            quantity: item.quantity,
+            productId: item.product.id
+          }))
+        }
+      }
+    });
+  };
 
   const orderEdited = useDebounce(() => {
     if (
@@ -107,22 +122,9 @@ const OrderOperation = (props: { order: EditableOrderDetail }) => {
   React.useEffect(() => orderEdited(), [orderUploaded, issues.length]);
 
   const { status, text } = getStatus({ issues, orderUploaded });
-  const updateOrderItem = () => {
-    updateOrder({
-      variables: {
-        id: order.id,
-        data: {
-          orderItem: order.orderItem.map(item => ({
-            price: item.price,
-            quantity: item.quantity,
-            productId: item.product.id
-          }))
-        }
-      }
-    });
-  };
+
   const confirmOrder = () => {
-    updateOrder({
+    update({
       variables: {
         id: order.id,
         data: {
