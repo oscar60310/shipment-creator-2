@@ -5,19 +5,19 @@
 import { OrderStatus } from "./globalTypes";
 
 // ====================================================
-// GraphQL fragment: OrderPreview
+// GraphQL fragment: orderPreviewFragment
 // ====================================================
 
-export interface OrderPreview_customer {
+export interface orderPreviewFragment_customer {
   __typename: "Customer";
   name: string;
 }
 
-export interface OrderPreview {
+export interface orderPreviewFragment {
   __typename: "Order";
   id: string;
   displayId: number;
-  customer: OrderPreview_customer;
+  customer: orderPreviewFragment_customer;
   orderTime: any;
   orderNumber: string | null;
   status: OrderStatus;

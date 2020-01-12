@@ -12,7 +12,7 @@
     "lint": "eslint client/**/*.ts client/**/*.tsx server/**/*.ts",
     "test": "jest",
     "deploy": "gh-pages -d ./build",
-    "apollo:generate": "apollo codegen:generate --includes=client/queries/*.ts --endpoint http://localhost:3000/graphql --target typescript --tagName=gql --outputFlat client/generated",
+    "apollo:generate": "apollo client:codegen --includes=client/queries/*.ts --endpoint http://localhost:3000/graphql --target typescript --tagName=gql --outputFlat client/generated",
     "build": "npm run build:client && npm run build:server",
     "prebuild": "rimraf build"
   },

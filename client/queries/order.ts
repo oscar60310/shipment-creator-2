@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost';
 
 const ORDER_PREVIEW = gql`
-  fragment OrderPreview on Order {
+  fragment orderPreviewFragment on Order {
     id
     displayId
     customer {
@@ -15,7 +15,7 @@ const ORDER_PREVIEW = gql`
 `;
 
 const ORDER_DETAIL = gql`
-  fragment OrderDetail on Order {
+  fragment orderDetailFragment on Order {
     id
     displayId
     customer {
@@ -46,7 +46,7 @@ const ORDER_DETAIL = gql`
 export const GET_ORDER_LIST = gql`
   query orderList($where: OrderSearchInput!) {
     orders(where: $where) {
-      ...OrderPreview
+      ...orderPreviewFragment
     }
   }
 
@@ -56,7 +56,7 @@ export const GET_ORDER_LIST = gql`
 export const GET_ORDER_DETAIL = gql`
   query orderDetail($id: String!) {
     order(id: $id) {
-      ...OrderDetail
+      ...orderDetailFragment
     }
   }
   ${ORDER_DETAIL}
@@ -65,7 +65,7 @@ export const GET_ORDER_DETAIL = gql`
 export const UPDATE_ORDER = gql`
   mutation updateOrder($id: String!, $data: OrderUpdateInput!) {
     updateOrder(id: $id, data: $data) {
-      ...OrderDetail
+      ...orderDetailFragment
     }
   }
   ${ORDER_DETAIL}
@@ -74,7 +74,7 @@ export const UPDATE_ORDER = gql`
 export const CREATE_ORDER = gql`
   mutation createOrder($data: OrderCreateInput!) {
     createOrder(data: $data) {
-      ...OrderPreview
+      ...orderPreviewFragment
     }
   }
   ${ORDER_PREVIEW}
