@@ -1,14 +1,15 @@
 version: '3'
 
 volumes:
-  postgres:
+  postgres-data-volume:
     external: true
 
 services:
   pg:
+    build: ./docker/pg
     image: oscar60310/pg-sc2
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres-data-volume:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: sctest
     ports:
@@ -21,15 +22,3 @@ services:
       - ./migrations:/flyway/sql
     depends_on:
       - pg
-  web:
-    image: oscar60310/shipment-creator-2:1.0.0
-    ports:
-      - 3000:3000
-    environment:
-      NODE_ENV: production
-    volumes:
-      - C:/Users/oscar/projects/sc-volume/config:/sc-web/config
-    restart: always
-    depends_on:
-      - pg
-      - flyway
