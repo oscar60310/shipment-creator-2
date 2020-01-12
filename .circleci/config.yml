@@ -50,7 +50,7 @@ jobs:
           command: mkdir dist
       - run:
           name: bundle
-          command: zip dist/shipment-creator.zip build/*
+          command: zip -r dist/shipment-creator.zip build/*
       - run:
           name: set user
           command: git config --global user.name $CIRCLE_USERNAME
