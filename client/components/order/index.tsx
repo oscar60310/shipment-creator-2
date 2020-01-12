@@ -17,7 +17,7 @@ import { OrderStatus } from '../../generated/globalTypes';
 import ReadOnlyOrderItem from './readOnlyOrderItem';
 
 const Order = () => {
-  let { id } = useParams();
+  const { id } = useParams();
   const [orderData, setOrderData] = useState<EditableOrderDetail>();
   const { data } = useQuery<orderDetail, orderDetailVariables>(
     GET_ORDER_DETAIL,

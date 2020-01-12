@@ -1,0 +1,31 @@
+type MonthlyDetailReport {
+  orderId: String!
+  orderTime: DateTime!
+  orderNumber: String
+  productId: String!
+  productName: String!
+  price: Float!
+  unit: String!
+  quantity: Float!
+}
+
+type ByProductPriceReport {
+  productId: String!
+  productName: String!
+  price: Float!
+  unit: String!
+  quantity: Float!
+}
+
+type ByProductReport {
+  productId: String!
+  productName: String!
+  unit: String!
+  quantity: Float!
+  subTotal: Float!
+}
+
+input ReportWhere {
+  month: DateTime!
+  customerId: String!
+}

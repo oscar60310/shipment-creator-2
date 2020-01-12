@@ -30,6 +30,7 @@ const CattyQuantityInput = (props: {
         fill
         value={data.catty}
         onValueChange={newValue => {
+          if (isNaN(newValue)) return;
           setData({
             ...data,
             catty: newValue
@@ -41,6 +42,7 @@ const CattyQuantityInput = (props: {
         fill
         value={data.tael}
         onValueChange={newValue => {
+          if (isNaN(newValue)) return;
           setData({
             ...data,
             tael: newValue
@@ -64,6 +66,7 @@ const QuantityInput = (props: {
         <CattyQuantityInput
           value={value}
           onValueChange={newValue => {
+            if (isNaN(newValue)) return;
             onValueChange(newValue);
           }}
         />
@@ -74,6 +77,7 @@ const QuantityInput = (props: {
           fill
           value={value}
           onValueChange={newValue => {
+            if (isNaN(newValue)) return;
             onValueChange(newValue);
           }}
         />
