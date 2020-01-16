@@ -40,4 +40,6 @@ type Mutation {
   createOrder(data: OrderCreateInput!): Order!
   "update order"
   updateOrder(id: String!, data: OrderUpdateInput!): Order!
+  "delete order"
+  deleteOrder(id: String!): Order!
 }
