@@ -16,7 +16,7 @@ import {
   updateCustomerVariables,
   updateCustomer
 } from '../generated/updateCustomer';
-import CustomDialog from './customDialog';
+import CustomDialog from '../utilities/customDialog';
 import { createCustomer } from '../generated/createCustomer';
 import {
   GET_CUSTOMERS,

@@ -79,3 +79,12 @@ export const CREATE_ORDER = gql`
   }
   ${ORDER_PREVIEW}
 `;
+
+export const DELETE_ORDER = gql`
+  mutation deleteOrder($id: String!) {
+    deleteOrder(id: $id) {
+      ...orderDetailFragment
+    }
+  }
+  ${ORDER_DETAIL}
+`;

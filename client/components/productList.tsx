@@ -21,7 +21,7 @@ import {
   updateProductVariables,
   updateProduct
 } from '../generated/updateProduct';
-import CustomDialog from './customDialog';
+import CustomDialog from '../utilities/customDialog';
 import { createProduct } from '../generated/createProduct';
 
 const ProductCard = (props: {
