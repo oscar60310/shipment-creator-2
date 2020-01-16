@@ -26,14 +26,26 @@ export default class UserResolver {
     if (!target) {
       throw new Error('Order not found');
     }
-    if (target.status === OrderStatus.CONFIRM) {
-      throw new Error('Can not update CONFIRM orders');
+    if (target.status !== OrderStatus.DRAFT) {
+      throw new Error('Can only update draft order');
     }
     if (data.status === OrderStatus.CONFIRM) {
       data.orderNumber = this.generateOrderNumber(target);
     }
     const result = await context.orderService.updateOne(id, {
       ...data,
+      modifyBy: context.user.id
+    });
+    return result;
+  };
+
+  public deleteOne = async (_root, { id }, context: ApolloContext) => {
+    const target = await context.orderService.findOne(id);
+    if (!target) {
+      throw new Error('Order not found');
+    }
+    const result = await context.orderService.updateOne(id, {
+      status: OrderStatus.ABANDON,
       modifyBy: context.user.id
     });
     return result;

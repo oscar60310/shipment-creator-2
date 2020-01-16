@@ -32,6 +32,8 @@ export default class Order extends Model<Order> {
   orderNumber!: string;
   @Column
   orderTime!: Date;
+  @Column
+  modifyBy!: string;
   @BelongsTo(() => User, 'modifyBy')
   modifyUser!: User;
   @Column
