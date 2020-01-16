@@ -1,7 +1,6 @@
 import React, { CSSProperties } from 'react';
-import { Tag, Colors } from '@blueprintjs/core';
+import { Colors } from '@blueprintjs/core';
 import dayjs from 'dayjs';
-import { OrderStatus } from '../../generated/globalTypes';
 import { EditableOrderDetail } from './orderModel';
 import { getOrderStatusTag } from '../../utilities/orderStatus';
 

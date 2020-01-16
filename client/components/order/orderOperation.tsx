@@ -70,7 +70,7 @@ const useOrderChange = (func: () => void) => {
 const OrderOperation = (props: { order: EditableOrderDetail }) => {
   const { order } = props;
   if (!order) return null;
-  const readonly = order.status === OrderStatus.CONFIRM;
+  const readonly = order.status !== OrderStatus.DRAFT;
   const totalPrice = order.orderItem.reduce(
     (total, item) => total + item.price * item.quantity,
     0

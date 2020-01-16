@@ -58,7 +58,7 @@ const Order = () => {
   };
   const orderItemOperation = () => {
     if (!orderData) return <Spinner size={50} intent="primary" />;
-    const readonly = orderData.status === OrderStatus.CONFIRM;
+    const readonly = orderData.status !== OrderStatus.DRAFT;
     return (
       <div style={{ flex: '1 1 0', overflow: 'auto' }}>
         <OrderDetail order={orderData} />
