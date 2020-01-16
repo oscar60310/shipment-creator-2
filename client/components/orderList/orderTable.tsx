@@ -1,21 +1,15 @@
 import React from 'react';
 import { orderList_orders } from '../../generated/orderList';
 import dayjs from 'dayjs';
-import { OrderStatus } from '../../generated/globalTypes';
-import { Tag } from '@blueprintjs/core';
 import { useHistory } from 'react-router-dom';
+import { getOrderStatusTag } from '../../utilities/orderStatus';
 
 const OrderTable = (props: { orders: orderList_orders[] }) => {
   const history = useHistory();
 
   const orderRow = (order: orderList_orders) => {
     const orderTime = dayjs(order.orderTime);
-    const status =
-      order.status === OrderStatus.CONFIRM ? (
-        <Tag intent="success">已確認</Tag>
-      ) : (
-        <Tag intent="none">草稿</Tag>
-      );
+    const status = getOrderStatusTag(order);
     return (
       <tr key={order.id} onClick={() => history.push(`/order/${order.id}`)}>
         <td>{order.displayId}</td>

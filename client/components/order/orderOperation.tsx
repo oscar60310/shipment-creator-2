@@ -2,14 +2,16 @@ import React from 'react';
 import { EditableOrderDetail } from './orderModel';
 import { Button, Alert, Colors } from '@blueprintjs/core';
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { UPDATE_ORDER } from '../../queries/order';
+import { UPDATE_ORDER, DELETE_ORDER } from '../../queries/order';
 import { updateOrder, updateOrderVariables } from '../../generated/updateOrder';
+import { deleteOrder, deleteOrderVariables } from '../../generated/deleteOrder';
 import { OrderStatus } from '../../generated/globalTypes';
 import { GET_SYSTEM_INFO } from '../../queries/info';
 import { systemInfo } from '../../generated/systemInfo';
 import { createHalfA4Report } from '../../utilities/report/half-a4';
 import { validateOrder, isOrderItemChange } from './orderValidator';
 import { useDebounce } from '../../utilities/debounce';
+import { ConfirmDeleteDialog } from './confirmDeleteDialog';
 
 enum EditorStatus {
   ERROR,
@@ -70,19 +72,28 @@ const useOrderChange = (func: () => void) => {
 const OrderOperation = (props: { order: EditableOrderDetail }) => {
   const { order } = props;
   if (!order) return null;
-  const readonly = order.status === OrderStatus.CONFIRM;
+  const readonly = order.status !== OrderStatus.DRAFT;
   const totalPrice = order.orderItem.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
   const [orderUploaded, setOrderUploaded] = React.useState(true);
+  const [confirmDialogOpen, setConfirmDialogOpen] = React.useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+
   const [update, { loading: updateLoading }] = useMutation<
     updateOrder,
     updateOrderVariables
   >(UPDATE_ORDER, {
     onCompleted: () => setOrderUploaded(true)
   });
-  const [confirmDialogOpen, setConfirmDialogOpen] = React.useState(false);
+  const [deleteOrder, { loading: deleteLoading }] = useMutation<
+    deleteOrder,
+    deleteOrderVariables
+  >(DELETE_ORDER, {
+    onCompleted: () => setDeleteDialogOpen(false)
+  });
+
   const { data: config, loading: configLoading } = useQuery<systemInfo>(
     GET_SYSTEM_INFO
   );
@@ -187,6 +198,14 @@ const OrderOperation = (props: { order: EditableOrderDetail }) => {
         {text}
       </div>
       <div style={{ width: '100%', textAlign: 'right' }}>
+        <Button
+          text="刪除"
+          intent="danger"
+          loading={updateLoading}
+          disabled={order.status === OrderStatus.ABANDON}
+          style={{ marginRight: 10 }}
+          onClick={() => setDeleteDialogOpen(true)}
+        />
         {readonly ? readonlyButtons : draftButtons}
       </div>
       <Alert
@@ -202,6 +221,12 @@ const OrderOperation = (props: { order: EditableOrderDetail }) => {
           確認這筆訂單嗎? 訂單確認後將<b>無法</b>更改。
         </p>
       </Alert>
+      <ConfirmDeleteDialog
+        open={deleteDialogOpen}
+        onCancel={() => setDeleteDialogOpen(false)}
+        onConfirm={() => deleteOrder({ variables: { id: order.id } })}
+        loading={deleteLoading}
+      />
     </div>
   );
 };

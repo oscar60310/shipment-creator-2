@@ -85,7 +85,8 @@ const resolvers = withAuthenticator({
     createProduct: productResolver.createOne,
     updateProduct: productResolver.updateOne,
     createOrder: orderResolver.createOne,
-    updateOrder: orderResolver.updateOne
+    updateOrder: orderResolver.updateOne,
+    deleteOrder: orderResolver.deleteOne
   },
   // Nested
   Customer: customerResolver.nested(),

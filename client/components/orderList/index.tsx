@@ -5,7 +5,7 @@ import { GET_ORDER_LIST, CREATE_ORDER } from '../../queries/order';
 import { orderList, orderListVariables } from '../../generated/orderList';
 import OrderTable from './orderTable';
 import { Button, Spinner } from '@blueprintjs/core';
-import CustomDialog from '../customDialog';
+import CustomDialog from '../../utilities/customDialog';
 import OrderCreator from '../order/orderCreator';
 import { createOrderVariables, createOrder } from '../../generated/createOrder';
 import { useHistory } from 'react-router';
