@@ -43,7 +43,7 @@ const OrderList = () => {
   });
 
   return (
-    <>
+    <div style={{ overflow: 'auto', height: '100%' }}>
       <h2 className="bp3-heading">訂單列表</h2>
       <div
         style={{
@@ -81,7 +81,7 @@ const OrderList = () => {
         content={<OrderCreator onSuccess={setCreateData} error={createError} />}
         title="建立新訂單"
       />
-    </>
+    </div>
   );
 };
 
