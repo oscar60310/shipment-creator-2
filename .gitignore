@@ -3,3 +3,4 @@ flyway*
 build
 config/shipment-creator-2.yaml
 *.log
+dist
