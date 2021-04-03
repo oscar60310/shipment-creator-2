@@ -213,11 +213,13 @@ const CustomerList = () => {
         content={createForm}
         title="建立客戶"
       />
-      <CustomerDetail
-        customer={detailDrawerStatus.data}
-        open={detailDrawerStatus.open}
-        onClose={() => setDetailDrawerStatus({ open: false })}
-      />
+      {detailDrawerStatus.data && (
+        <CustomerDetail
+          customer={detailDrawerStatus.data}
+          open={detailDrawerStatus.open}
+          onClose={() => setDetailDrawerStatus({ open: false })}
+        />
+      )}
     </div>
   );
 };
