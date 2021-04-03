@@ -26,12 +26,13 @@ export const renderProductMenuItem = (
   );
 };
 
-const ItemSortTable: FunctionComponent = () => {
-  const { data: productList } = useQuery<products>(GET_PRODUCTS);
+interface Props {
+  productSort: products_products[];
+  onUpdate: (newValue: products_products[]) => void;
+}
 
-  const [selectedProduct, setSelectedProduct] = React.useState<
-    products_products[]
-  >([]);
+const ItemSortTable: FunctionComponent<Props> = ({ productSort, onUpdate }) => {
+  const { data: productList } = useQuery<products>(GET_PRODUCTS);
 
   return (
     <>
@@ -39,14 +40,14 @@ const ItemSortTable: FunctionComponent = () => {
         items={
           productList?.products.filter(
             product =>
-              selectedProduct.findIndex(
+              productSort.findIndex(
                 selectedProduct => selectedProduct.id === product.id
               ) === -1
           ) || []
         }
         itemRenderer={renderProductMenuItem}
         onItemSelect={item => {
-          setSelectedProduct([...selectedProduct, item]);
+          onUpdate([...productSort, item]);
         }}
       >
         <Button text="請選擇要加入的產品" rightIcon="caret-down" />
@@ -64,21 +65,17 @@ const ItemSortTable: FunctionComponent = () => {
           </tr>
         </thead>
 
-        <ReactSortable
-          list={selectedProduct}
-          setList={setSelectedProduct}
-          tag="tbody"
-        >
-          {selectedProduct.map(product => (
+        <ReactSortable list={productSort} setList={onUpdate} tag="tbody">
+          {productSort.map(product => (
             <tr key={product.id}>
-              <td>{product.displayId}</td>
-              <td>{product.name}</td>
+              <td style={{ verticalAlign: 'middle' }}>{product.displayId}</td>
+              <td style={{ verticalAlign: 'middle' }}>{product.name}</td>
               <td>
                 <Button
                   icon="remove"
                   onClick={() => {
-                    setSelectedProduct(
-                      selectedProduct.filter(
+                    onUpdate(
+                      productSort.filter(
                         selectedProduct => selectedProduct.id !== product.id
                       )
                     );

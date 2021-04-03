@@ -6,6 +6,12 @@
 // GraphQL query operation: customers
 // ====================================================
 
+export interface customers_customers_productSorts {
+  __typename: "ProductSort";
+  sort: number;
+  productId: string;
+}
+
 export interface customers_customers {
   __typename: "Customer";
   id: string;
@@ -13,6 +19,7 @@ export interface customers_customers {
   name: string;
   address: string | null;
   phone: string | null;
+  productSorts: customers_customers_productSorts[];
 }
 
 export interface customers {
