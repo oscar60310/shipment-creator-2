@@ -11,22 +11,24 @@ import {
 } from '@blueprintjs/core';
 import { pick } from 'lodash';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { customers, customers_customers } from '../generated/customers';
+import { customers, customers_customers } from '../../generated/customers';
 import {
   updateCustomerVariables,
   updateCustomer
-} from '../generated/updateCustomer';
-import CustomDialog from '../utilities/customDialog';
-import { createCustomer } from '../generated/createCustomer';
+} from '../../generated/updateCustomer';
+import CustomDialog from '../../utilities/customDialog';
+import { createCustomer } from '../../generated/createCustomer';
 import {
   GET_CUSTOMERS,
   CREATE_CUSTOMER,
   UPDATE_CUSTOMER
-} from '../queries/customer';
+} from '../../queries/customer';
+import CustomerDetail from './customerDetailDrawer';
 
 const CustomerCard = (props: {
   data: customers_customers;
   onDelete: (id: string) => void;
+  onEditDetail: (data: customers_customers) => void;
 }) => {
   const [data, setData] = useState(props.data);
   useEffect(() => setData(props.data), [props.data]);
@@ -69,37 +71,52 @@ const CustomerCard = (props: {
           />
         </FormGroup>
       </ControlGroup>
-      <ButtonGroup minimal={true}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <ButtonGroup minimal={true}>
+          <Button
+            loading={updateLoading}
+            intent="primary"
+            onClick={() => {
+              update({
+                variables: {
+                  id: data.id,
+                  data: pick(data, 'address', 'name')
+                }
+              });
+            }}
+          >
+            更新
+          </Button>
+          <Button
+            loading={deleteLoading}
+            intent="danger"
+            onClick={() => {
+              deleteCustomer();
+            }}
+          >
+            刪除
+          </Button>
+        </ButtonGroup>
         <Button
-          loading={updateLoading}
+          minimal
           intent="primary"
-          onClick={() => {
-            update({
-              variables: {
-                id: data.id,
-                data: pick(data, 'address', 'name')
-              }
-            });
-          }}
+          onClick={() => props.onEditDetail(props.data)}
         >
-          更新
+          設定
         </Button>
-        <Button
-          loading={deleteLoading}
-          intent="danger"
-          onClick={() => {
-            deleteCustomer();
-          }}
-        >
-          刪除
-        </Button>
-      </ButtonGroup>
+      </div>
     </Card>
   );
 };
+
 const CustomerList = () => {
   const { data, client } = useQuery<customers>(GET_CUSTOMERS);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [detailDrawerStatus, setDetailDrawerStatus] = useState<{
+    open: boolean;
+    data?: customers_customers;
+  }>({ open: false });
+
   const [creationData, setCreationData] = useState({
     name: '',
     address: ''
@@ -152,6 +169,11 @@ const CustomerList = () => {
       )}
     </>
   );
+
+  const onEditDetail = (data: customers_customers) => {
+    setDetailDrawerStatus({ data, open: true });
+  };
+
   return (
     <div style={{ overflow: 'auto', height: '100%' }}>
       <h2 className="bp3-heading">客戶列表</h2>
@@ -169,6 +191,7 @@ const CustomerList = () => {
                 data={customer}
                 key={customer.id}
                 onDelete={removeCustomer}
+                onEditDetail={onEditDetail}
               />
             </div>
           ))}
@@ -189,6 +212,11 @@ const CustomerList = () => {
         }
         content={createForm}
         title="建立客戶"
+      />
+      <CustomerDetail
+        customer={detailDrawerStatus.data}
+        open={detailDrawerStatus.open}
+        onClose={() => setDetailDrawerStatus({ open: false })}
       />
     </div>
   );
