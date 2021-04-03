@@ -20,17 +20,20 @@ export const useSortedProductList = (customerId: string) => {
     },
     onCompleted: () => {
       queryProduct();
+    },
+    onError: () => {
+      queryProduct();
     }
   });
 
   const findSortSeq = (product: products_products) => {
-    const storedSql = customerData.customer.productSorts.find(
+    const storedSql = customerData?.customer.productSorts.find(
       sortData => sortData.productId === product.id
     )?.sort;
 
     // if not defined for customer, use display id to sort
     return isUndefined(storedSql)
-      ? customerData.customer.productSorts.length + product.displayId
+      ? (customerData?.customer.productSorts.length || 0) + product.displayId
       : storedSql;
   };
 

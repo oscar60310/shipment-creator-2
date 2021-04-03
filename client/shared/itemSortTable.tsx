@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/react-hooks';
 import { Button, MenuItem } from '@blueprintjs/core';
-import { Select } from '@blueprintjs/select';
+import { ItemPredicate, Select } from '@blueprintjs/select';
 import React, { FunctionComponent } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import { products, products_products } from '../generated/products';
@@ -26,6 +26,24 @@ export const renderProductMenuItem = (
   );
 };
 
+export const filterItem: ItemPredicate<products_products> = (
+  query,
+  item,
+  _index,
+  exactMatch
+) => {
+  const normalizedTitle = item.name.toLowerCase();
+  const normalizedQuery = query.toLowerCase();
+
+  if (exactMatch) {
+    return normalizedTitle === normalizedQuery;
+  } else {
+    return (
+      `${item.displayId}. ${normalizedTitle}`.indexOf(normalizedQuery) >= 0
+    );
+  }
+};
+
 interface Props {
   productSort: products_products[];
   onUpdate: (newValue: products_products[]) => void;
@@ -49,6 +67,7 @@ const ItemSortTable: FunctionComponent<Props> = ({ productSort, onUpdate }) => {
         onItemSelect={item => {
           onUpdate([...productSort, item]);
         }}
+        itemPredicate={filterItem}
       >
         <Button text="請選擇要加入的產品" rightIcon="caret-down" />
       </ProductSelect>

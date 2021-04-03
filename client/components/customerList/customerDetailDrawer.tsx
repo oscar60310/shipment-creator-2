@@ -11,6 +11,7 @@ import {
 } from '../../generated/updateCustomerProductSort';
 import { GET_PRODUCTS } from '../../queries/product';
 import { ApolloError } from 'apollo-boost';
+import { compact } from 'lodash';
 
 interface Props {
   open: boolean;
@@ -31,9 +32,11 @@ const CustomerDetailDrawer: FunctionComponent<Props> = ({
     if (!customer.productSorts || !productList) return;
 
     setProductSort(
-      customer.productSorts.map(productSortRecord =>
-        productList.products.find(
-          product => product.id === productSortRecord.productId
+      compact(
+        customer.productSorts.map(productSortRecord =>
+          productList.products.find(
+            product => product.id === productSortRecord.productId
+          )
         )
       )
     );
