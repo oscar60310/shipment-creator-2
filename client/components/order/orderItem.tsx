@@ -1,11 +1,10 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
 import { orderDetail_order_orderItem } from '../../generated/orderDetail';
-import { products, products_products } from '../../generated/products';
-import { GET_PRODUCTS } from '../../queries/product';
+import { products_products } from '../../generated/products';
 import { Select, ItemPredicate } from '@blueprintjs/select';
 import { MenuItem, Button, Spinner, NumericInput } from '@blueprintjs/core';
 import QuantityInput from '../../shared/quantityInput';
+import { useSortedProductList } from '../../hooks/useProductList';
 
 const ProductSelect = Select.ofType<products_products>();
 const verticalCenter = {
@@ -52,10 +51,12 @@ const OrderItem = (props: {
   data: Partial<orderDetail_order_orderItem>;
   onUpdate: (data: Partial<orderDetail_order_orderItem>) => void;
   onDelete: (data: Partial<orderDetail_order_orderItem>) => void;
+  customerId: string;
 }) => {
-  const { data, onUpdate, onDelete } = props;
-  const { data: productList } = useQuery<products>(GET_PRODUCTS);
-  if (!productList || !productList.products)
+  const { data, customerId, onUpdate, onDelete } = props;
+  const { data: productList } = useSortedProductList(customerId);
+
+  if (!productList)
     return (
       <tr>
         <td>
@@ -67,7 +68,7 @@ const OrderItem = (props: {
     <tr>
       <td>
         <ProductSelect
-          items={productList.products}
+          items={productList}
           itemRenderer={renderProductMenuItem}
           onItemSelect={item => {
             onUpdate({ ...data, product: item, price: item.price });

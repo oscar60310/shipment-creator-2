@@ -10,6 +10,7 @@ import {
   updateCustomerProductSortVariables
 } from '../../generated/updateCustomerProductSort';
 import { GET_PRODUCTS } from '../../queries/product';
+import { ApolloError } from 'apollo-boost';
 
 interface Props {
   open: boolean;
