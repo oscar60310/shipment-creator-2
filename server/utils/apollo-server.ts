@@ -12,6 +12,7 @@ import CustomerService from '../services/customerService';
 import ProductService from '../services/productService';
 import OrderService from '../services/orderService';
 import ReportService from '../services/reportServices';
+import ProductSortService from '../services/productSortService';
 
 import UserResolver from '../resolvers/userResolver';
 import CustomerResolver from '../resolvers/customerResolver';
@@ -33,6 +34,7 @@ const customerService = new CustomerService();
 const productService = new ProductService();
 const orderService = new OrderService();
 const reportService = new ReportService();
+const productSortService = new ProductSortService();
 
 // Resolvers
 const userResolver = new UserResolver();
@@ -82,6 +84,7 @@ const resolvers = withAuthenticator({
     createUser: userResolver.createOne,
     createCustomer: customerResolver.createOne,
     updateCustomer: customerResolver.updateOne,
+    updateCustomerProductSort: customerResolver.updateProductSort,
     createProduct: productResolver.createOne,
     updateProduct: productResolver.updateOne,
     createOrder: orderResolver.createOne,
@@ -126,6 +129,7 @@ export const server = new ApolloServer({
       productService,
       orderService,
       reportService,
+      productSortService,
       config
     } as ApolloContext;
   }
