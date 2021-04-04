@@ -7,6 +7,12 @@ type Customer {
   modifyUser: User!
   updatedAt: DateTime!
   createdAt: DateTime!
+  productSorts: [ProductSort!]!
+}
+
+type ProductSort {
+  productId: String!
+  sort: Int!
 }
 
 """
@@ -25,4 +31,8 @@ input CustomerUpdateInput {
   address: String
   remark: String
   enable: Boolean
+}
+
+input CustomerProductSortUpdateInput {
+  productSorts: [String!]!
 }

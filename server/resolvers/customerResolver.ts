@@ -26,9 +26,28 @@ export default class UserResolver {
     return result;
   };
 
+  public updateProductSort = async (
+    _root,
+    { id, data },
+    context: ApolloContext
+  ) => {
+    await context.productSortService.updateOrCreate(
+      id,
+      data.productSorts.map((productId, index) => ({
+        productId,
+        sort: index,
+        customerId: id
+      }))
+    );
+    return await context.customerService.findOne(id);
+  };
+
   public nested = () => ({
     modifyUser: async ({ modifyBy }, _args, context: ApolloContext) => {
       return await context.userService.findOne(modifyBy);
+    },
+    productSorts: async ({ id }, _args, context: ApolloContext) => {
+      return await context.productSortService.find(id);
     }
   });
 }

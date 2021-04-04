@@ -8,6 +8,12 @@ import { CustomerCreateInput } from "./globalTypes";
 // GraphQL mutation operation: createCustomer
 // ====================================================
 
+export interface createCustomer_createCustomer_productSorts {
+  __typename: "ProductSort";
+  sort: number;
+  productId: string;
+}
+
 export interface createCustomer_createCustomer {
   __typename: "Customer";
   id: string;
@@ -15,6 +21,7 @@ export interface createCustomer_createCustomer {
   name: string;
   address: string | null;
   phone: string | null;
+  productSorts: createCustomer_createCustomer_productSorts[];
 }
 
 export interface createCustomer {

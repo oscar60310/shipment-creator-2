@@ -22,6 +22,10 @@ export interface CustomerCreateInput {
   remark?: string | null;
 }
 
+export interface CustomerProductSortUpdateInput {
+  productSorts: string[];
+}
+
 export interface CustomerUpdateInput {
   name?: string | null;
   phone?: string | null;

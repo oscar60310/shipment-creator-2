@@ -1,4 +1,4 @@
-import { Table, Column, Model, HasOne, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, Model, BelongsTo } from 'sequelize-typescript';
 import User from './user.model';
 
 @Table({ tableName: 'products' })

@@ -10,7 +10,25 @@ import { OrderStatus } from "./globalTypes";
 
 export interface deleteOrder_deleteOrder_customer {
   __typename: "Customer";
+  id: string;
   name: string;
+  address: string | null;
+  displayId: number;
+}
+
+export interface deleteOrder_deleteOrder_orderItem_product {
+  __typename: "Product";
+  id: string;
+  name: string;
+  unit: string | null;
+}
+
+export interface deleteOrder_deleteOrder_orderItem {
+  __typename: "OrderItem";
+  id: string;
+  price: number;
+  quantity: number;
+  product: deleteOrder_deleteOrder_orderItem_product | null;
 }
 
 export interface deleteOrder_deleteOrder {
@@ -18,9 +36,13 @@ export interface deleteOrder_deleteOrder {
   id: string;
   displayId: number;
   customer: deleteOrder_deleteOrder_customer;
+  updatedAt: any;
+  createdAt: any;
   orderTime: any;
-  orderNumber: string | null;
   status: OrderStatus;
+  remark: string | null;
+  orderItem: deleteOrder_deleteOrder_orderItem[];
+  orderNumber: string | null;
 }
 
 export interface deleteOrder {

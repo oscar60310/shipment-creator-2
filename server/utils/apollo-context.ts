@@ -5,6 +5,7 @@ import ProductService from 'server/services/productService';
 import OrderService from 'server/services/orderService';
 import ReportService from 'server/services/reportServices';
 import { IConfig } from 'server/config';
+import ProductSortService from 'server/services/productSortService';
 
 export interface ApolloContext {
   config: IConfig;
@@ -14,4 +15,5 @@ export interface ApolloContext {
   productService: ProductService;
   orderService: OrderService;
   reportService: ReportService;
+  productSortService: ProductSortService;
 }

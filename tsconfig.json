@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2018",
     "module": "commonjs",
     "jsx": "react",
     "moduleResolution": "node",
@@ -12,19 +12,10 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "baseUrl": ".",
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/types"
-    ],
+    "typeRoots": ["./node_modules/@types", "./src/types"],
     "outDir": "./build/server"
   },
-  "files": [
-    "./server/app.ts"
-  ],
-  "include": [
-    "./server/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "files": ["./server/app.ts"],
+  "include": ["./server/**/*"],
+  "exclude": ["node_modules"]
 }

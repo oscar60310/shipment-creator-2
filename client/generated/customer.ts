@@ -3,25 +3,29 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: customers
+// GraphQL query operation: customer
 // ====================================================
 
-export interface customers_customers_productSorts {
+export interface customer_customer_productSorts {
   __typename: "ProductSort";
   sort: number;
   productId: string;
 }
 
-export interface customers_customers {
+export interface customer_customer {
   __typename: "Customer";
   id: string;
   displayId: number;
   name: string;
   address: string | null;
   phone: string | null;
-  productSorts: customers_customers_productSorts[];
+  productSorts: customer_customer_productSorts[];
 }
 
-export interface customers {
-  customers: customers_customers[];
+export interface customer {
+  customer: customer_customer;
+}
+
+export interface customerVariables {
+  id: string;
 }

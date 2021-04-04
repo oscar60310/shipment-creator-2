@@ -32,6 +32,11 @@ type Mutation {
   createCustomer(data: CustomerCreateInput!): Customer!
   "update customer"
   updateCustomer(id: String!, data: CustomerUpdateInput!): Customer!
+  "update customer product sort property"
+  updateCustomerProductSort(
+    id: String!
+    data: CustomerProductSortUpdateInput!
+  ): Customer!
   "create new product"
   createProduct(data: ProductCreateInput!): Product!
   "update product"

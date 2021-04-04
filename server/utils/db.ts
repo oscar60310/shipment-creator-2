@@ -7,8 +7,17 @@ import Order from './dbModels/order.model';
 import OrderItem from './dbModels/orderItem.model';
 import config from '../config';
 import OrderItemDetail from './dbModels/orderItemDetail.model';
+import ProductSort from './dbModels/productSort.model';
 
-const models = [User, Customer, Product, Order, OrderItem, OrderItemDetail];
+const models = [
+  User,
+  Customer,
+  Product,
+  ProductSort,
+  Order,
+  OrderItem,
+  OrderItemDetail
+];
 
 export const sequelize = new Sequelize({
   host: config.dbHost || 'localhost',

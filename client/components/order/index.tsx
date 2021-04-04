@@ -17,7 +17,7 @@ import { OrderStatus } from '../../generated/globalTypes';
 import ReadOnlyOrderItem from './readOnlyOrderItem';
 
 const Order = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [orderData, setOrderData] = useState<EditableOrderDetail>();
   const { data } = useQuery<orderDetail, orderDetailVariables>(
     GET_ORDER_DETAIL,
@@ -27,7 +27,9 @@ const Order = () => {
     if (!data || !data.order) return;
     setOrderData(data.order);
   }, [data]);
-  const updateOrderItem = (updatedItem: orderDetail_order_orderItem) => {
+  const updateOrderItem = (
+    updatedItem: Partial<orderDetail_order_orderItem>
+  ) => {
     const index = orderData.orderItem.findIndex(
       item => item.id === updatedItem.id
     );
@@ -50,7 +52,9 @@ const Order = () => {
       orderItem: [...orderData.orderItem, emptyItem]
     });
   };
-  const deleteOrderItem = (deletedItem: orderDetail_order_orderItem) => {
+  const deleteOrderItem = (
+    deletedItem: Partial<orderDetail_order_orderItem>
+  ) => {
     setOrderData({
       ...orderData,
       orderItem: orderData.orderItem.filter(item => item.id !== deletedItem.id)
@@ -93,6 +97,7 @@ const Order = () => {
                   key={item.id}
                   onUpdate={updateOrderItem}
                   onDelete={deleteOrderItem}
+                  customerId={data.order.customer.id}
                 />
               )
             )}
