@@ -1,1 +1,3 @@
-export * from './customerList';
+import CustomerList from './customerList';
+
+export default CustomerList;
